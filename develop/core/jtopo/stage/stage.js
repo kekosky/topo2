@@ -1,33 +1,50 @@
 var initEagleEye = require("./eagleEye.js");
 var canvasEvent = require("./event.js");
 module.exports = function (jtopo) {
+    jtopo.Stage = Stage;
     function Stage(canvas) {
         if (null != canvas) {
-            var self = this;
-            this.initialize(canvas);
-            !function () {
-                if(self.frames<0){
-                    self.frames=-self.frames;
-                }
-                if (0 == self.frames) {
-                    setTimeout(arguments.callee, 1000);
-                } else {
-                    self.paint();
-                    setTimeout(arguments.callee, 1e3 / self.frames);
-                }
-            }();
-            self.mousewheel(function (a) {
-                var direction = null == a.wheelDelta ? a.detail : a.wheelDelta;
-                if (null != self.wheelZoom) {
-                    if (direction < 0) {
-                        self.zoomIn(self.wheelZoom);
-                    } else {
-                        self.zoomOut(self.wheelZoom);
-                    }
-                }
-            });
-            self.paint();
+            canvasEvent(this, canvas, jtopo);
+            this.canvas = canvas;
+            this.graphics = canvas.getContext("2d");
+            this.childs = [];
+            this.frames = 24;
+            this.messageBus = new jtopo.util.MessageBus;
+            this.eagleEye = initEagleEye(this);
+            this.wheelZoom = null;
+            this.mouseDownX = 0;
+            this.mouseDownY = 0;
+            this.mouseDown = !1;
+            this.mouseOver = !1;
+            zoomCheck(this);
+            runStage(this);
         }
+    }
+    function runStage(stage){
+        stage.paint();
+        repaint();
+        function repaint() {
+            if(stage.frames<0){
+                stage.frames=-stage.frames;
+            }
+            if (0 == stage.frames) {
+                setTimeout(repaint, 1000);
+            } else {
+                stage.paint();
+                setTimeout(repaint, 1e3 / stage.frames);
+            }
+        }
+    }
+    function zoomCheck(stage){
+        stage.mousewheel(function (event) {
+            if (null != stage.wheelZoom) {
+                if ((null == event.wheelDelta ? event.detail : event.wheelDelta) < 0) {
+                    stage.zoomIn(stage.wheelZoom);
+                } else {
+                    stage.zoomOut(stage.wheelZoom);
+                }
+            }
+        });
     }
     Object.defineProperties(Stage.prototype,{
         width:{
@@ -56,20 +73,11 @@ module.exports = function (jtopo) {
             }
         }
     });
-    Stage.prototype.initialize = function (canvas) {
-        canvasEvent(this, canvas, jtopo);
-        this.canvas = canvas;
-        this.graphics = canvas.getContext("2d");
-        this.childs = [];
-        this.frames = 24;
-        this.messageBus = new jtopo.util.MessageBus;
-        this.eagleEye = initEagleEye(this);
-        this.wheelZoom = null;
-        this.mouseDownX = 0;
-        this.mouseDownY = 0;
-        this.mouseDown = !1;
-        this.mouseOver = !1;
-    };
+    ['click', 'dbclick', 'mousedown', 'mouseup', 'mouseover', 'mouseout', 'mousemove', 'mousedrag', 'mousewheel', 'touchstart', 'touchmove', 'touchend', 'keydown', 'keyup'].forEach(function (eventName) {
+        Stage.prototype[eventName] = function (e) {
+            null != e ? this.addEventListener(eventName, e) : this.dispatchEvent(eventName);
+        }
+    });
     Stage.prototype.dispatchEventToScenes = function (name, event) {
         if (1 == this.eagleEye.visible && -1 != name.indexOf("mouse")) {
             var eventX = event.x;
@@ -206,10 +214,4 @@ module.exports = function (jtopo) {
         bound.height = bound.bottom - bound.top;
         return bound;
     };
-    ['click', 'dbclick', 'mousedown', 'mouseup', 'mouseover', 'mouseout', 'mousemove', 'mousedrag', 'mousewheel', 'touchstart', 'touchmove', 'touchend', 'keydown', 'keyup'].forEach(function (eventName) {
-        Stage.prototype[eventName] = function (e) {
-            null != e ? this.addEventListener(eventName, e) : this.dispatchEvent(eventName);
-        }
-    });
-    jtopo.Stage = Stage;
 };

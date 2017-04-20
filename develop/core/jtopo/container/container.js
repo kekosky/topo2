@@ -57,17 +57,21 @@ module.exports = function (jtopo) {
     Container.prototype.paint = function (context) {
         if (this.visible) {
             this.doLayout(this.layout);
-            context.beginPath();
-            context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
             if (null == this.borderRadius || 0 == this.borderRadius) {
+                context.beginPath();
                 context.rect(this.x, this.y, this.width, this.height);
+                context.closePath();
             } else {
-                context.JTopoRoundRect(this.x, this.y, this.width, this.height, this.borderRadius);
+                context._roundRect(this.x, this.y, this.width, this.height, this.borderRadius);
             }
+            if(0 != this.borderWidth){
+                context.lineWidth=this.borderWidth;
+                context.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
+                context.stroke();
+            }
+            context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
             context.fill();
-            context.closePath();
             this.paintText(context);
-            this.paintBorder(context);
         }
     };
     Container.prototype.paintBorder = function (context) {
@@ -79,7 +83,7 @@ module.exports = function (jtopo) {
             if(null == this.borderRadius || 0 == this.borderRadius){
                 context.rect(this.x - b, this.y - b, this.width + this.borderWidth, this.height + this.borderWidth)
             }else{
-                context.JTopoRoundRect(this.x - b, this.y - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius);
+                context._roundRect(this.x - b, this.y - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius);
             }
             context.stroke();
             context.closePath();

@@ -86,7 +86,7 @@ function setJTopo(config) {
  *          默认全局参数:
  *              var DEFAULT= {
                         image: "",
-                        size: [60, 60],
+                        size: [200, 100],
                         name: "node",
                         alpha: 1,
                         position: [0, 0],
@@ -98,7 +98,7 @@ function setJTopo(config) {
                         jsonId:"",
                         border:{
                             width:0,
-                            radius:0,//最大160 最小0
+                            radius:0,
                             color:"255,0,0"
                         },
                         zIndex: 3,
@@ -127,24 +127,19 @@ ShapeNode.prototype.setShapeType=function(type){
             break;
     }
 };
-function paintEllipse(ctx){
-    ctx.save();
-    ctx.beginPath();
-    var radiusX = (this.width/0.75)/2,
-        radiusY = this.height/2;
-    ctx.moveTo(0, -radiusY);
-    ctx.bezierCurveTo(radiusX, -radiusY, radiusX, radiusY, 0, radiusY);//右半边
-    ctx.bezierCurveTo(-radiusX, radiusY, -radiusX, -radiusY, 0, -radiusY);//左半边
-    ctx.closePath();
-    if(this.jtopo.gradien){
-        ctx.fillStyle=this.jtopo.gradien;
+function paintEllipse(context){
+    context.save();
+    context._ellipse(0,0,this.width,this.height);
+    //context._star(0,0,this.width,this.height);
+    if(this.gradien){
+        context.fillStyle=this.gradien;
     }else{
-        ctx.fillStyle = 'rgba('+this.fillColor+"," + this.alpha + ")";
+        context.fillStyle = 'rgba('+this.fillColor+"," + this.alpha + ")";
     }
-    ctx.fill();
-    ctx.restore();
-    this.paintCtrl(ctx);
-    this.paintAlarmText(ctx);
-    this.paintText(ctx);
+    context.fill();
+    context.restore();
+    this.paintCtrl(context);
+    this.paintAlarmText(context);
+    this.paintText(context);
 }
 //-

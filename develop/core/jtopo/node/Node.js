@@ -1,4 +1,4 @@
-module.exports=function(jtopo){
+module.exports = function (jtopo) {
     jtopo.Node = Node;
     function Node(text) {
         jtopo.EditableElement.call(this);
@@ -20,7 +20,8 @@ module.exports=function(jtopo){
         var d = "text,font,fontColor,textPosition,textOffsetX,textOffsetY,borderRadius".split(",");
         this.serializedProperties = this.serializedProperties.concat(d);
     }
-    jtopo.util.inherits(Node,jtopo.EditableElement);
+
+    jtopo.util.inherits(Node, jtopo.EditableElement);
     Object.defineProperties(Node.prototype, {
         alarmColor: {
             get: function () {
@@ -73,18 +74,22 @@ module.exports=function(jtopo){
             }
             context.globalAlpha = gobalAlpha;
         } else {
-            context.beginPath();
-            context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
             if (null == this.borderRadius || 0 == this.borderRadius) {
-                context.rect(-this.width / 2, -this.height / 2, this.width, this.height)
+                context.beginPath();
+                context.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+                context.closePath();
             } else {
-                context.JTopoRoundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius);
+                context._roundRect(-this.width / 2, -this.height / 2, this.width, this.height, this.borderRadius);
             }
+            context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
             context.fill();
-            context.closePath();
+        }
+        if(0 != this.borderWidth){
+            context.lineWidth=this.borderWidth;
+            context.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
+            context.stroke();
         }
         this.paintText(context);
-        this.paintBorder(context);
         this.paintCtrl(context);
         this.paintAlarmText(context);
     };
@@ -96,17 +101,17 @@ module.exports=function(jtopo){
             var startX = this.width / 2 - lineWidth / 2;
             var startY = -this.height / 2 - fontWidth - 8;
             paintAlarmPanel(
-                startX,startY,
+                startX, startY,
                 this.alarmColor || "255,0,0",
                 this.alarmAlpha || .5,
-                lineWidth,fontWidth
+                lineWidth, fontWidth
             );
             context.beginPath();
             context.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")";
             context.fillText(this.alarm, startX + 2, startY + fontWidth - 4);
             context.closePath();
         }
-        function paintAlarmPanel(x,y,color,alpha,lineWidth,fontWidth){
+        function paintAlarmPanel(x, y, color, alpha, lineWidth, fontWidth) {
             context.beginPath();
             context.strokeStyle = "rgba(" + color + ", " + alpha + ")";
             context.fillStyle = "rgba(" + color + ", " + alpha + ")";
@@ -135,98 +140,46 @@ module.exports=function(jtopo){
             context.fillStyle = "rgba(" + this.fontColor + "," + this.alpha + ")";
             //换行检测
             var textlines = text.split("\n");
-            textlines.forEach(function(line){
+            textlines.forEach(function (line) {
                 var width = context.measureText(line).width;
                 if (width > maxWidth) {
                     maxWidth = width;
                 }
             });
-            var e = this.getTextPostion(this.textPosition, maxWidth, fontWidth, textlines.length);
-            textlines.forEach(function(line,i){
-                context.fillText(line, e.x + (maxWidth - context.measureText(line).width) / 2, e.y + i * fontWidth);
+            var textStartPoint = this.getTextPostion(this.textPosition, maxWidth, fontWidth, textlines.length);
+            textlines.forEach(function (line, i) {
+                context.fillText(line, textStartPoint.x + (maxWidth - context.measureText(line).width) / 2, textStartPoint.y + i * fontWidth);
             });
             context.closePath();
         }
     };
-    Node.prototype.paintBorder = function (context) {
-        if (0 != this.borderWidth) {
-            context.beginPath();
-            context.lineWidth = this.borderWidth;
-            context.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
-            var b = this.borderWidth / 2;
-            if (null == this.borderRadius || 0 == this.borderRadius) {
-                context.rect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth);
-            } else {
-                context.JTopoRoundRect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius);
-            }
-            context.stroke();
-            context.closePath();
-        }
-    };
     Node.prototype.getTextPostion = function (position, maxWidth, fontWidth, textLines) {
-        var d = null;
         switch (position) {
             case "Bottom_Center":
-                d = {
-                    x: -this.width / 2 + (this.width - maxWidth) / 2,
-                    y: this.height / 2 + fontWidth
-                };
-                break;
+                return getPosition(-this.width / 2 + (this.width - maxWidth) / 2, this.height / 2 + fontWidth);
             case "Top_Center":
-                d = {
-                    x: -this.width / 2 + (this.width - maxWidth) / 2,
-                    y: -this.height / 2 - fontWidth / 2 - fontWidth * (textLines - 1)
-                };
-                break;
+                return getPosition(-this.width / 2 + (this.width - maxWidth) / 2, -this.height / 2 - fontWidth / 2 - fontWidth * (textLines - 1));
             case "Top_Right":
-                d = {
-                    x: this.width / 2,
-                    y: -this.height / 2 - fontWidth / 2
-                };
-                break;
+                return getPosition(this.width / 2, -this.height / 2 - fontWidth / 2);
             case "Top_Left":
-                d = {
-                    x: -this.width / 2 - maxWidth,
-                    y: -this.height / 2 - fontWidth / 2
-                };
-                break;
+                return getPosition(-this.width / 2 - maxWidth, -this.height / 2 - fontWidth / 2);
             case "Bottom_Right":
-                d = {
-                    x: this.width / 2,
-                    y: this.height / 2 + fontWidth
-                };
-                break;
+                return getPosition(this.width / 2, this.height / 2 + fontWidth);
             case "Bottom_Left":
-                d = {
-                    x: -this.width / 2 - maxWidth,
-                    y: this.height / 2 + fontWidth
-                };
-                break;
+                return getPosition(-this.width / 2 - maxWidth, this.height / 2 + fontWidth);
             case "Middle_Center":
-                d = {
-                    x: -this.width / 2 + (this.width - maxWidth) / 2,
-                    y: fontWidth / 2
-                };
-                break;
+                return getPosition(-this.width / 2 + (this.width - maxWidth) / 2, fontWidth / 2);
             case "Middle_Right":
-                d = {
-                    x: this.width / 2,
-                    y: fontWidth / 2
-                };
-                break;
+                return getPosition(this.width / 2, fontWidth / 2);
             default:
-                d = {//"Middle_Left"
-                    x: -this.width / 2 - maxWidth,
-                    y: fontWidth / 2
-                };
+                return getPosition(-this.width / 2 - maxWidth, fontWidth / 2);//"Middle_Left"
         }
-        if (null != this.textOffsetX) {
-            d.x += this.textOffsetX
+        function getPosition(x, y) {
+            return {
+                x: x + (null != this.textOffsetX ? this.textOffsetX : 0),
+                y: y + (null != this.textOffsetY ? this.textOffsetY : 0)
+            }
         }
-        if (null != this.textOffsetY) {
-            d.y += this.textOffsetY
-        }
-        return d;
     };
     var imageCache = {};
     Node.prototype.setImage = function (paramImage, asImageSize) {
@@ -247,10 +200,10 @@ module.exports=function(jtopo){
         } else {
             initImage(paramImage)
         }
-        function initImage(newImage){
+        function initImage(newImage) {
             self.image = newImage;
             self.alarmColor = self.alarmColor || "255,0,0";
-            if (asImageSize==1) {
+            if (asImageSize == 1) {
                 self.setSize(newImage.width, newImage.height)
             }
         }

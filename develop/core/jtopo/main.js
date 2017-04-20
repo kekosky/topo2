@@ -32,24 +32,6 @@ Element.prototype.restore = function () {
         })
     }
 };
-/*a=this.x - this.borderWidth / 2 b=this.y - this.borderWidth / 2,*/
-CanvasRenderingContext2D.prototype.JTopoRoundRect = function (x, y, width, height, borderRadius) {
-    //画元素圆角边框
-    if ("undefined" == typeof borderRadius) {
-        borderRadius = 5;
-    }
-    this.beginPath();
-    this.moveTo(x + borderRadius, y);
-    this.lineTo(x + width - borderRadius, y);
-    this.quadraticCurveTo(x + width, y, x + width, y + borderRadius);
-    this.lineTo(x + width, y + height - borderRadius);
-    this.quadraticCurveTo(x + width, y + height, x + width - borderRadius, y + height);
-    this.lineTo(x + borderRadius, y + height);
-    this.quadraticCurveTo(x, y + height, x, y + height - borderRadius);
-    this.lineTo(x, y + borderRadius);
-    this.quadraticCurveTo(x, y, x + borderRadius, y);
-    this.closePath();
-};
 var JTopo = {
     version: "0.4.8_01",
     zIndex_Container: 1,

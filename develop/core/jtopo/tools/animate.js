@@ -222,33 +222,66 @@ module.exports = function (jtopo) {
         }, times);
     }
 
-    function dividedTwoPiece(b, c) {
-        function d(c, d, e, f, g) {
-            var h = new jtopo.Node;
-            return h.setImage(b.image), h.setSize(b.width, b.height), h.setLocation(c, d), h.showSelected = !1, h.draggable = !1, h.paint = function (a) {
-                a.save(), a.arc(0, 0, e, f, g), a.clip(), a.beginPath(), null != this.image ? a.drawImage(this.image, -this.width / 2, -this.height / 2) : (a.fillStyle = "rgba(" + this.style.fillStyle + "," + this.alpha + ")", a.rect(-this.width / 2, -this.height / 2, this.width / 2, this.height / 2), a.fill()), a.closePath(), a.restore()
-            }, h
+    function dividedTwoPiece(node, config) {
+        var scene = config.context;
+        var messageBus;
+        return {
+            onStop: function (fn) {
+                if (null == messageBus) {
+                    messageBus = new jtopo.util.MessageBus();
+                }
+                messageBus.subscribe("stop", fn);
+                return this;
+            },
+            run: function () {
+                var angle = config.angle;
+                var g = angle + Math.PI;
+                var leftPiece = createPieceNode(node.x, node.y, node.width, angle, g);
+                var rightPiece = createPieceNode(node.x - 2 + 4 * Math.random(), node.y, node.width, angle + Math.PI, angle);
+                node.visible = !1;
+                scene.add(leftPiece);
+                scene.add(rightPiece);
+                jtopo.Animate.gravity(leftPiece, {context: scene, dx: .3})
+                    .run()
+                    .onStop(function () {
+                        scene.remove(leftPiece);
+                        scene.remove(rightPiece);
+                        this.stop();
+                    });
+                jtopo.Animate.gravity(rightPiece, {context: scene, dx: -.2}).run();
+                return this
+            },
+            stop: function () {
+                if (messageBus) {
+                    messageBus.publish("stop");
+                }
+                return this
+            }
+        };
+        function createPieceNode(x, y, radius, startAngle, endAngle) {
+            var node = new jtopo.Node;
+            node.setImage(node.image);
+            node.setSize(node.width, node.height);
+            node.setLocation(x, y);
+            node.showSelected = !1;
+            node.draggable = !1;
+            node.paint = function (context) {
+                context.save();
+                context.arc(0, 0, radius, startAngle, endAngle);
+                context.clip();
+                context.beginPath();
+                if (null != this.image) {
+                    context.drawImage(this.image, -this.width / 2, -this.height / 2)
+                } else {
+                    context.fillStyle = "rgba(" + this.style.fillStyle + "," + this.alpha + ")";
+                    context.rect(-this.width / 2, -this.height / 2, this.width / 2, this.height / 2);
+                    context.fill();
+                }
+                context.closePath();
+                context.restore();
+            };
+            return node
         }
-
-        function e(c, e) {
-            var f = c, g = c + Math.PI, h = d(b.x, b.y, b.width, f, g), j = d(b.x - 2 + 4 * Math.random(), b.y, b.width, f + Math.PI, f);
-            b.visible = !1, e.add(h), e.add(j), jtopo.Animate.gravity(h, {context: e, dx: .3}).run().onStop(function () {
-                e.remove(h), e.remove(j), i.stop()
-            }), jtopo.Animate.gravity(j, {context: e, dx: -.2}).run()
-        }
-
-        function f() {
-            return e(c.angle, h), i
-        }
-
-        function g() {
-            return i.onStop && i.onStop(b), i
-        }
-
-        var h = c.context, i = (b.style, {});
-        return i.onStop = function (a) {
-            return i.onStop = a, i
-        }, i.run = f, i.stop = g, i
     }
 
     function repeatThrow(a, b) {
