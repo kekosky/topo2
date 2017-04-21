@@ -84,14 +84,25 @@ module.exports = function (jtopo) {
             context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
             context.fill();
         }
-        if(0 != this.borderWidth){
-            context.lineWidth=this.borderWidth;
-            context.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
-            context.stroke();
-        }
+        this.paintBorder(context);
         this.paintText(context);
         this.paintCtrl(context);
         this.paintAlarmText(context);
+    };
+    Node.prototype.paintBorder = function (context) {
+        if (0 != this.borderWidth) {
+            context.beginPath();
+            context.lineWidth = this.borderWidth;
+            context.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
+            var b = this.borderWidth / 2;
+            if (null == this.borderRadius || 0 == this.borderRadius) {
+                context.rect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth);
+            } else {
+                context.JTopoRoundRect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius);
+            }
+            context.stroke();
+            context.closePath();
+        }
     };
     Node.prototype.paintAlarmText = function (context) {
         if (null != this.alarm && "" != this.alarm) {

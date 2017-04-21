@@ -59,21 +59,9 @@ $(document).ready(function () {
     var table=$("#alarm_detail");
     function test(data){
         scene.on('click',function(e){console.info(e.x,e.y);})
-        data.node=[];
-        data.link=[];
-        data.container=[];
-        data.container.push({
-            size:[400,400],
-            position:[0,0],
-            layout:{
-                type:"fixed"
-            },
-            border:{
-                width:50,
-                radius:30,
-                color:"255,0,0"
-            },
-        });
+        //data.node=[];
+        //data.link=[];
+        //data.container=[];
         //for(var i= 0;i<100;i++){
         //    data.node.push({
         //        position:[Math.random()*10000,Math.random()*10000],

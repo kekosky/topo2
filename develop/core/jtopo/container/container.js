@@ -64,13 +64,9 @@ module.exports = function (jtopo) {
             } else {
                 context._roundRect(this.x, this.y, this.width, this.height, this.borderRadius);
             }
-            if(0 != this.borderWidth){
-                context.lineWidth=this.borderWidth;
-                context.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
-                context.stroke();
-            }
             context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
             context.fill();
+            this.paintBorder(context);
             this.paintText(context);
         }
     };

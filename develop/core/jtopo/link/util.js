@@ -27,50 +27,72 @@ function getPublicLink(elementA, elementB) {
         }
     return result
 }
-
+/**
+ * 获取两点之间线段的求y公式
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @returns {getY}
+ */
 function lineF(x1, y1, x2, y2) {
     var tan = (y2 - y1) / (x2 - x1);
     var g = y1 - x1 * tan;
-    e.k = tan;
-    e.b = g;
-    e.x1 = x1;
-    e.x2 = x2;
-    e.y1 = y1;
-    e.y2 = y2;
-    return e;
-    function e(a) {
-        return a * tan + g
+    getY.tan = tan;
+    getY.b = g;
+    getY.x1 = x1;
+    getY.x2 = x2;
+    getY.y1 = y1;
+    getY.y2 = y2;
+    return getY;
+    function getY(x) {
+        return x * tan + g
     }
 }
-function inRange(a, b, c) {
-    var d = Math.abs(b - c), e = Math.abs(b - a), f = Math.abs(c - a), g = Math.abs(d - (e + f));
+function inRange(a1, a2, a3) {
+    var d = Math.abs(a2 - a3);
+    var e = Math.abs(a2 - a1);
+    var f = Math.abs(a3 - a1);
+    var g = Math.abs(d - (e + f));
     return 1e-6 > g ? !0 : !1
 }
-function isPointInLineSeg(a, b, c) {
-    return inRange(a, c.x1, c.x2) && inRange(b, c.y1, c.y2)
+function isPointInLineSeg(x, y, fn) {
+    return inRange(x, fn.x1, fn.x2) && inRange(y, fn.y1, fn.y2)
 }
-function intersection(lineFn, lineFnB) {
-    var c, d;
-    if (lineFn.k != lineFnB.k) {
-        if(1 / 0 == lineFn.k || lineFn.k == -1 / 0){
-            c = lineFn.x1;
-            d = lineFnB(lineFn.x1);
-        }else if(1 / 0 == lineFnB.k || lineFnB.k == -1 / 0){
-            c = lineFnB.x1;
-            d = lineFn(lineFnB.x1);
+/**
+ * 根据两条线的坐标公式查找交点
+ * @param fnA
+ * @param fnB
+ * @returns {*}
+ */
+function intersection(fnA, fnB) {
+    var x, y;
+    if (fnA.tan != fnB.tan) {//夹角相同则存在两线共线
+        if(1 / 0 == fnA.tan || fnA.tan == -1 / 0){//垂直时
+            x = fnA.x1;
+            y = fnB(fnA.x1);
+        }else if(1 / 0 == fnB.tan || fnB.tan == -1 / 0){//垂直时
+            x = fnB.x1;
+            y = fnA(fnB.x1);
         }else{
-            c = (lineFnB.b - lineFn.b) / (lineFn.k - lineFnB.k);
-            d = lineFn(c)
+            x = (fnB.b - fnA.b) / (fnA.tan - fnB.tan);
+            y = fnA(x)
         }
-        if(0!= isPointInLineSeg(c, d, lineFn)&&0!= isPointInLineSeg(c, d, lineFnB)){
+        if(0!= isPointInLineSeg(x, y, fnA)&&0!= isPointInLineSeg(x, y, fnB)){
             return {
-                x: c,
-                y: d
+                x: x,
+                y: y
             }
         }
     }
     return null;
 }
+/**
+ * 获取直线公式与方形四条边的交点
+ * @param lineFn
+ * @param bound
+ * @returns {{x, y}}
+ */
 function intersectionLineBound(lineFn, bound) {
     var newLineFn = lineF(bound.left, bound.top, bound.left, bound.bottom);
     var d = intersection(lineFn, newLineFn);

@@ -1,4 +1,5 @@
 var JTopo=require('./main.js');
+var Element=require("./base/Element.js");
 //-------工具
 require('./tools/api.js');
 require('./tools/util.js')(JTopo);
