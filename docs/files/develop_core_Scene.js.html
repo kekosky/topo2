@@ -189,7 +189,7 @@
                     
                        <li>
                             
-                           <a href="../classes/TextNode.html">TextNode</a>
+                           <a href="../classes/initTextNode.html">initTextNode</a>
                            <ul>
                                 
                            </ul>
@@ -429,11 +429,11 @@ Scene.prototype.val = function (key, value) {
             self.extra[name] = value;
         })
     } else {
-        if (!value) {
+        if (typeof value==&#x27;undefined&#x27;) {
             var result;
-            if (this.extra[key]) {
+            if (typeof this.extra[key]!=&#x27;undefined&#x27;) {
                 result = this.extra[key];
-            } else if (this.attr[key]) {
+            } else if (typeof this.attr[key]!=&#x27;undefined&#x27;) {
                 result = this.attr[key];
             } else {
                 result = this[key];
@@ -1262,6 +1262,7 @@ Scene.prototype.moveToNode = function (node) {
         }
     }
 };
+
 /**
  * 自动布局
  * @method autoLayout

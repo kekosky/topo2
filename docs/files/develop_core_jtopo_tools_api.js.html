@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>develop\component\windows\tools\styleSelect.js - QTopo</title>
+    <title>develop\core\jtopo\tools\api.js - QTopo</title>
   
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -288,126 +288,73 @@
             <div id="docs-main">
                 <div class="content">
                     <div class="page-header">
-    <h1>develop\component\windows\tools\styleSelect.js <small>File</small></h1>
+    <h1>develop\core\jtopo\tools\api.js <small>File</small></h1>
 </div>
 
 <div class="file">
     <pre class="prettyprint linenums" id='src_code'>
-var temp = require(&quot;./styleSelect.html&quot;);
-var util = require(&quot;../util.js&quot;);
-module.exports = {
-    init: init
+/**
+ * 绘制园角矩形
+ * @param x {number}左上角坐标点x
+ * @param y {number}左上角坐标点y
+ * @param width {number}矩形宽度
+ * @param height {number}矩形高度
+ * @param borderRadius {number}圆角弧度
+ */
+CanvasRenderingContext2D.prototype._roundRect = function (x, y, width, height, borderRadius) {
+    //元素圆角
+    borderRadius = borderRadius || 5;
+    this.beginPath();
+    this.moveTo(x + borderRadius, y);
+    this.lineTo(x + width - borderRadius, y);
+    this.arcTo(x + width, y, x + width, y + borderRadius,borderRadius);
+    this.lineTo(x + width, y + height - borderRadius);
+    this.arcTo(x + width, y + height, x + width - borderRadius, y + height,borderRadius);
+    this.lineTo(x + borderRadius, y + height);
+    this.arcTo(x, y + height, x, y + height - borderRadius,borderRadius);
+    this.lineTo(x, y + borderRadius);
+    this.arcTo(x, y, x + borderRadius, y,borderRadius);
+    this.closePath();
 };
 /**
- * @module component
- * @class windows
+ * 绘制椭圆
+ * @param x {number}圆心坐标x
+ * @param y {number}圆心坐标y
+ * @param width {number}椭圆宽度
+ * @param height {number}椭圆高度
  */
+CanvasRenderingContext2D.prototype._ellipse = function (x, y, width, height) {
+    var radiusX = width / 0.75 / 2;
+    var radiusY = height / 2;
+    this.beginPath();
+    this.moveTo(x, y - radiusY);
+    this.bezierCurveTo(x + radiusX, y - radiusY, x + radiusX, y + radiusY, x, y + radiusY);//右半边
+    this.bezierCurveTo(x - radiusX, y + radiusY, x - radiusX, y - radiusY, x, y - radiusY);//左半边
+    this.closePath();
+};
 /**
- * 公用的样式选择窗口
- * @method styleSelect
- * @param [config] {object} 无值则全部展示 ,
- *
- * 键对应窗口中样式的select框或Input框的name属性,值对应input内初始值或select的选中值 :
- *
- *          支持属性有:
- *          width , height , fontSize , namePosition , borderWidth , borderRadius , direction , linkOffset , linkRadius , linkDash , linkGap ,
- *          arrowSize , arrowOffset , fontColor , color , borderColor
- *
- * @return  {deferred} jquery的延迟执行函数,回调函数传入的参数为,根据开启窗口的设置获取相应的值组成的对象
- * @example
- *      instance.open(&quot;styleSelect&quot;,{
-                    namePosition:&quot;top&quot;,
-                    width:50,
-                    height:50,
-                    borderColor:&quot;255,255,255&quot;
-        })
-            .then(function(op){
-                console.info(op);//若开启时指定namePosition,width,height,borderColor四项，则回调值也是这四项的
-            });
+ * 画五角星
+ * @param x {number}圆心坐标x
+ * @param y {number}圆心坐标y
+ * @param radius {number}五角星外半径
+ * @private
  */
-function init(dom, scene) {
-    temp = $(temp);
-    initChildren(temp);
-    var styleBoxs = getStyleBoxs(temp);
-    var body = temp.find(&quot;.modal-body&quot;);
-    var deferred;
-    var callBack;
-    //隐藏时清空active类
-    temp.on(&quot;hide.bs.modal&quot;, function (e) {
-        if (deferred &amp;&amp; deferred.state() == &quot;pending&quot;) {
-            deferred.reject();
-        }
-    });
-    //暴露的接口
-    temp.open = function (config) {
-        deferred = $.Deferred();
-        temp.modal(&#x27;show&#x27;);
-        callBack = filterBox(config, styleBoxs);
-        return deferred.promise();
-    };
-    //点击确认按钮后用选中图片释放延迟函数
-    temp.find(&quot;.ok&quot;).on(&quot;click&quot;, function () {
-        if (deferred &amp;&amp; deferred.state() == &quot;pending&quot;) {
-            var result = getResult(callBack);
-            deferred.resolve(result);
-        }
-        temp.modal(&#x27;hide&#x27;);
-    });
-    return temp
-}
-function initChildren(win) {
-    //颜色选择框初始化
-    util.initColorSelect(win.find(&quot;.color-group&quot;));
-}
-function getStyleBoxs(win) {
-    var boxs = {};
-    win.find(&quot;.style-box&quot;).each(function () {
-        var self = $(this);
-        boxs[self.attr(&quot;name&quot;)] = self;
-    });
-    return boxs;
-}
-//根据参数决定显示哪些属性
-function filterBox(config, styleBoxs) {
-    var callBack = {};
-    var value;
-    $.each(styleBoxs, function (name, box) {
-        if (config) {
-            value=config[name];
-            if (typeof value!=&#x27;undefined&#x27;) {
-                box.show();
-                callBack[name] = box;
-                boxValue(box,value);
-            } else {
-                box.hide();
-            }
-        } else {
-            callBack = styleBoxs;
-            box.show();
-        }
-    });
-    return callBack;
-}
-function getResult(callBack) {
-    var result = {};
-    if (callBack) {
-        $.each(callBack, function (name, box) {
-            result[name] = boxValue(box);
-        })
+CanvasRenderingContext2D.prototype._star = function (x, y,radius) {
+    var innerRadius=radius*0.4;
+    this.beginPath();
+    //从顶点开始绘制路径
+    for (var i = 0; i &lt; 5; i++) {
+        this.lineTo(
+            Math.cos((18 + i * 72) / 180 * Math.PI) * radius + x,
+            -Math.sin((18 + i * 72) / 180 * Math.PI) * radius + y
+        );
+        this.lineTo(
+            Math.cos((54 + i * 72) / 180 * Math.PI) * innerRadius + x,
+            -Math.sin((54 + i * 72) / 180 * Math.PI) * innerRadius + y
+        );
     }
-    return result;
-}
-function boxValue(box, value) {
-    var output = box.find(&quot;.row-item input&quot;);
-    if (output.length == 0) {
-        output = box.find(&quot;.row-item select&quot;);
-    }
-    if (value) {
-        output.val(value);
-    } else {
-        return output.val();
-    }
-}
+    this.closePath();
+};
     </pre>
 </div>
 

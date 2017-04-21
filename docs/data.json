@@ -232,7 +232,7 @@
             "name": "develop\\core\\element\\node\\Text.js",
             "modules": {},
             "classes": {
-                "TextNode": 1
+                "initTextNode": 1
             },
             "fors": {},
             "namespaces": {}
@@ -246,6 +246,20 @@
             "fors": {},
             "namespaces": {}
         },
+        "develop\\core\\jtopo\\stage\\event.js": {
+            "name": "develop\\core\\jtopo\\stage\\event.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "develop\\core\\jtopo\\tools\\api.js": {
+            "name": "develop\\core\\jtopo\\tools\\api.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "develop\\core\\jtopo\\tools\\layout.js": {
             "name": "develop\\core\\jtopo\\tools\\layout.js",
             "modules": {},
@@ -253,8 +267,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "develop\\core\\jtopo\\base.js": {
-            "name": "develop\\core\\jtopo\\base.js",
+        "develop\\core\\jtopo\\main.js": {
+            "name": "develop\\core\\jtopo\\main.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -351,7 +365,7 @@
                 "ImageNode": 1,
                 "[N] Node": 1,
                 "ShapeNode": 1,
-                "TextNode": 1,
+                "initTextNode": 1,
                 "[E] Element": 1,
                 "Scene": 1
             },
@@ -725,9 +739,9 @@
                 }
             ]
         },
-        "TextNode": {
-            "name": "TextNode",
-            "shortname": "TextNode",
+        "initTextNode": {
+            "name": "initTextNode",
+            "shortname": "initTextNode",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -1985,7 +1999,7 @@
                 "type": "Object"
             },
             "example": [
-                "\n        默认全局参数:\n            var DEFAULT = {\n                              name: 'group',\n                              font:{\n                                  size:16,\n                                  type:\"微软雅黑\",\n                                  color:'255,255,255'\n                              },\n                              color: '10,10,100',\n                              alpha: 0.5,\n                              draggable: true,\n                              zIndex: 10,\n                              jsonId:\"\",\n                              border:{\n                                  width:0,\n                                  radius:30,//最大160 最小0\n                                  color:\"255,0,0\"\n                              },\n                              size:[500,500],\n                              position:[0,0],\n                              namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,\n                              layout: {\n                                  type:\"default\"\n                              },\n                              children:{//待定设置，未完全实现\n                                  showLink: false,\n                                  showName: true,\n                                  draggable: true\n                              },\n                              useType:QTopo.constant.container.GROUP\n                      };"
+                "\n        默认全局参数:\n            var DEFAULT = {\n                              name: 'group',\n                              font:{\n                                  size:16,\n                                  type:\"微软雅黑\",\n                                  color:'255,255,255'\n                              },\n                              color: '10,10,100',\n                              alpha: 0.5,\n                              draggable: true,\n                              zIndex: 1,\n                              jsonId:\"\",\n                              border:{\n                                  width:0,\n                                  radius:30,\n                                  color:\"255,0,0\"\n                              },\n                              size:[500,500],\n                              position:[0,0],\n                              namePosition: 'bottom',//Bottom_Center Top_Center Middle_Left Middle_Right Hidden,\n                              layout: {\n                                  type:\"default\"\n                              },\n                              children:{//待定设置，未完全实现\n                                  showLink: false,\n                                  showName: true,\n                                  draggable: true\n                              },\n                              useType:QTopo.constant.container.GROUP\n                      };"
             ],
             "class": "Group",
             "module": "core"
@@ -2019,7 +2033,7 @@
                 "type": "Object"
             },
             "example": [
-                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               position:{\n                                   start:[0,0],\n                                   end:[0,100]\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 3,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               expendAble: true,\n                               useType: QTopo.constant.line.DIRECT,\n                               offset: 60\n                           };"
+                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               position:{\n                                   start:[0,0],\n                                   end:[0,100]\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 3,\n                               dashed: null,\n                               zIndex: 2,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               expendAble: true,\n                               useType: QTopo.constant.line.DIRECT,\n                               offset: 60\n                           };"
             ],
             "class": "DirectLine",
             "module": "core"
@@ -2213,7 +2227,7 @@
                 "type": "Object"
             },
             "example": [
-                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 2,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               useType: QTopo.constant.link.CURVE,\n                               offset: 200\n                           };"
+                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 2,\n                               dashed: null,\n                               zIndex: 2,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               useType: QTopo.constant.link.CURVE,\n                               offset: 200\n                           };"
             ],
             "class": "CurveLink",
             "module": "core"
@@ -2247,7 +2261,7 @@
                 "type": "Object"
             },
             "example": [
-                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 3,\n                               dashed: null,\n                               zIndex: 100,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               expendAble: true,\n                               useType: QTopo.constant.link.DIRECT,\n                               offset: 60\n                           };"
+                "\n         var DEFAULT = {\n                               number: 1,\n                               alpha: 1,\n                               color: '22,124,255',\n                               arrow: {\n                                   size: 10,\n                                   offset: 0,\n                                   start: false,\n                                   end: false\n                               },\n                               jsonId:\"\",\n                               gap: 20,\n                               width: 3,\n                               dashed: null,\n                               zIndex: 2,\n                               font: {\n                                   size: 16,\n                                   type: \"微软雅黑\",\n                                   color: '255,255,255'\n                               },\n                               expendAble: true,\n                               useType: QTopo.constant.link.DIRECT,\n                               offset: 60\n                           };"
             ],
             "class": "DirectLink",
             "module": "core"
@@ -2346,7 +2360,7 @@
                 "type": "Object"
             },
             "example": [
-                "\n        var DEFAULT = {\n                           number: 1,\n                           alpha: 1,\n                           color: '22,124,255',\n                           arrow: {\n                               size: 10,\n                               offset: 0,\n                               start: false,\n                               end: false\n                           },\n                           jsonId:\"\",\n                           radius: 0,\n                           gap: 20,\n                           width: 2,\n                           dashed: null,\n                           zIndex: 100,\n                           font: {\n                               size: 16,\n                               type: \"微软雅黑\",\n                               color: '255,255,255'\n                           },\n                           useType: QTopo.constant.link.FLEXIONAL,\n                           direction: \"horizontal\",\n                           offset: 60//两端折线线段的长度\n                       };"
+                "\n        var DEFAULT = {\n                           number: 1,\n                           alpha: 1,\n                           color: '22,124,255',\n                           arrow: {\n                               size: 10,\n                               offset: 0,\n                               start: false,\n                               end: false\n                           },\n                           jsonId:\"\",\n                           radius: 0,\n                           gap: 20,\n                           width: 2,\n                           dashed: null,\n                           zIndex: 2,\n                           font: {\n                               size: 16,\n                               type: \"微软雅黑\",\n                               color: '255,255,255'\n                           },\n                           useType: QTopo.constant.link.FLEXIONAL,\n                           direction: \"horizontal\",\n                           offset: 60//两端折线线段的长度\n                       };"
             ],
             "class": "FlexionalLink",
             "module": "core"
@@ -2556,8 +2570,8 @@
             "params": [
                 {
                     "name": "dashedPattern",
-                    "description": "",
-                    "type": "Number|null"
+                    "description": "[虚线长度,虚线间隔]",
+                    "type": "Array"
                 }
             ],
             "class": "[L] Link",
@@ -2565,7 +2579,7 @@
         },
         {
             "file": "develop\\core\\element\\link\\Link.js",
-            "line": 172,
+            "line": 174,
             "description": "单个对象的属性提取",
             "itemtype": "method",
             "name": "[L] toJson",
@@ -2621,7 +2635,7 @@
                 "type": "Object"
             },
             "example": [
-                "\n        默认全局参数:\n            var DEFAULT= {\n                      image: \"\",\n                      size: [60, 60],\n                      name: \"node\",\n                      alpha: 1,\n                      position: [0, 0],\n                      font: {\n                          size: 16,\n                          type: '微软雅黑',\n                          color: \"255,255,255\"\n                      },\n                      jsonId:\"\",\n                      border:{\n                          width:0,\n                          radius:0,//最大160 最小0\n                          color:\"255,0,0\"\n                      },\n                      zIndex: 200,//层级(10-999)\n                      color: JTopo.util.randomColor(),\n                      namePosition: 'bottom',\n                      useType: QTopo.constant.node.IMAGE,\n                      alarm: {\n                          show: false,\n                          text: \"\",\n                          color: \"255,255,255\",\n                          font: {\n                              size: 16,\n                              type: \"微软雅黑\"\n                          }\n                      }\n                  };"
+                "\n        默认全局参数:\n            var DEFAULT= {\n                      image: \"\",\n                      size: [60, 60],\n                      name: \"node\",\n                      alpha: 1,\n                      position: [0, 0],\n                      font: {\n                          size: 16,\n                          type: '微软雅黑',\n                          color: \"255,255,255\"\n                      },\n                      jsonId:\"\",\n                      border:{\n                          width:0,\n                          radius:0,\n                          color:\"255,0,0\"\n                      },\n                      zIndex: 3,\n                      color: JTopo.util.randomColor(),\n                      namePosition: 'bottom',\n                      useType: QTopo.constant.node.IMAGE,\n                      alarm: {\n                          show: false,\n                          text: \"\",\n                          color: \"255,255,255\",\n                          font: {\n                              size: 16,\n                              type: \"微软雅黑\"\n                          }\n                      }\n                  };"
             ],
             "class": "ImageNode",
             "module": "core"
@@ -2753,7 +2767,7 @@
                 "type": "Object"
             },
             "example": [
-                "\n        默认全局参数:\n            var DEFAULT= {\n                      image: \"\",\n                      size: [60, 60],\n                      name: \"node\",\n                      alpha: 1,\n                      position: [0, 0],\n                      font: {\n                          size: 16,\n                          type: '微软雅黑',\n                          color: \"255,255,255\"\n                      },\n                      jsonId:\"\",\n                      border:{\n                          width:0,\n                          radius:0,//最大160 最小0\n                          color:\"255,0,0\"\n                      },\n                      zIndex: 200,//层级(10-999)\n                      color: JTopo.util.randomColor(),\n                      namePosition: 'bottom',\n                      useType: QTopo.constant.node.IMAGE,\n                      alarm: {\n                          show: false,\n                          text: \"\",\n                          color: \"255,255,255\",\n                          font: {\n                              size: 16,\n                              type: \"微软雅黑\"\n                          }\n                      }\n                  };"
+                "\n        默认全局参数:\n            var DEFAULT= {\n                      image: \"\",\n                      size: [200, 100],\n                      name: \"node\",\n                      alpha: 1,\n                      position: [0, 0],\n                      font: {\n                          size: 16,\n                          type: '微软雅黑',\n                          color: \"255,255,255\"\n                      },\n                      jsonId:\"\",\n                      border:{\n                          width:0,\n                          radius:0,\n                          color:\"255,0,0\"\n                      },\n                      zIndex: 3,\n                      color: JTopo.util.randomColor(),\n                      namePosition: 'bottom',\n                      useType: QTopo.constant.node.IMAGE,\n                      alarm: {\n                          show: false,\n                          text: \"\",\n                          color: \"255,255,255\",\n                          font: {\n                              size: 16,\n                              type: \"微软雅黑\"\n                          }\n                      }\n                  };"
             ],
             "class": "ShapeNode",
             "module": "core"
@@ -2773,7 +2787,7 @@
             "example": [
                 "\n        实际参数参考attr内属性,只会修改有对应set函数的属性,若新增属性且添加了setXXX函数，也可用此函数配置\n        如:name 对应 setName(\"..\")\n        参数格式如下\n        config={\n            xx:...,\n            xx:...\n        }"
             ],
-            "class": "TextNode",
+            "class": "initTextNode",
             "module": "core"
         },
         {
@@ -2787,9 +2801,9 @@
                 "type": "Object"
             },
             "example": [
-                "\n        默认全局参数:\n            var DEFAULT = {\n                  position: [0, 0],\n                  font: {\n                      size: 16,\n                      type: '微软雅黑',\n                      color: \"255,255,255\"\n                  },\n                  jsonId:\"\",\n                  border: {\n                      width: 0,\n                      radius: 0,//最大160 最小0\n                      color: \"255,0,0\"\n                  },\n                  zIndex: 200,//层级(10-999)\n                  alpha: 1,\n                  text: 'no text here',\n                  useType: QTopo.constant.node.TEXT\n              };"
+                "\n        默认全局参数:\n            var DEFAULT = {\n                  position: [0, 0],\n                  font: {\n                      size: 16,\n                      type: '微软雅黑',\n                      color: \"255,255,255\"\n                  },\n                  jsonId:\"\",\n                  border: {\n                      width: 0,\n                      radius: 0,//最大160 最小0\n                      color: \"255,0,0\"\n                  },\n                  zIndex: 3,\n                  alpha: 1,\n                  text: 'no text here',\n                  useType: QTopo.constant.node.TEXT\n              };"
             ],
-            "class": "TextNode",
+            "class": "initTextNode",
             "module": "core"
         },
         {
@@ -3147,14 +3161,110 @@
             "module": "core"
         },
         {
+            "file": "develop\\core\\jtopo\\stage\\event.js",
+            "line": 1,
+            "description": "Created by qiyc on 2017/4/18.",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\jtopo\\tools\\api.js",
+            "line": 1,
+            "description": "绘制园角矩形",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "左上角坐标点x",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "左上角坐标点y",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "矩形宽度",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "矩形高度",
+                    "type": "Number"
+                },
+                {
+                    "name": "borderRadius",
+                    "description": "圆角弧度",
+                    "type": "Number"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\jtopo\\tools\\api.js",
+            "line": 24,
+            "description": "绘制椭圆",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "圆心坐标x",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "圆心坐标y",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "椭圆宽度",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "椭圆高度",
+                    "type": "Number"
+                }
+            ],
+            "class": "Scene",
+            "module": "core"
+        },
+        {
+            "file": "develop\\core\\jtopo\\tools\\api.js",
+            "line": 40,
+            "description": "画五角星",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "圆心坐标x",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "圆心坐标y",
+                    "type": "Number"
+                },
+                {
+                    "name": "radius",
+                    "description": "五角星外半径",
+                    "type": "Number"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Scene",
+            "module": "core"
+        },
+        {
             "file": "develop\\core\\jtopo\\tools\\layout.js",
-            "line": 141,
+            "line": 156,
             "description": "找到可以作为根的节点",
             "class": "Scene",
             "module": "core"
         },
         {
-            "file": "develop\\core\\jtopo\\base.js",
+            "file": "develop\\core\\jtopo\\main.js",
             "line": 1,
             "description": "Created by qiyc on 2017/4/12.",
             "class": "Scene",
@@ -3805,7 +3915,7 @@
         },
         {
             "file": "develop\\core\\Scene.js",
-            "line": 970,
+            "line": 971,
             "description": "自动布局",
             "itemtype": "method",
             "name": "autoLayout",
@@ -4417,13 +4527,13 @@
             "name": "inherits",
             "params": [
                 {
-                    "name": "clazz",
-                    "description": "源类",
+                    "name": "childClazz",
+                    "description": "子类",
                     "type": "Function"
                 },
                 {
-                    "name": "baseClazz",
-                    "description": "基类",
+                    "name": "FatherClazz",
+                    "description": "父类",
                     "type": "Function"
                 }
             ],
@@ -4687,12 +4797,28 @@
             "line": " develop\\util.js:82"
         },
         {
+            "message": "Missing item type\nCreated by qiyc on 2017/4/18.",
+            "line": " develop\\core\\jtopo\\stage\\event.js:1"
+        },
+        {
+            "message": "Missing item type\n绘制园角矩形",
+            "line": " develop\\core\\jtopo\\tools\\api.js:1"
+        },
+        {
+            "message": "Missing item type\n绘制椭圆",
+            "line": " develop\\core\\jtopo\\tools\\api.js:24"
+        },
+        {
+            "message": "Missing item type\n画五角星",
+            "line": " develop\\core\\jtopo\\tools\\api.js:40"
+        },
+        {
             "message": "Missing item type\n找到可以作为根的节点",
-            "line": " develop\\core\\jtopo\\tools\\layout.js:141"
+            "line": " develop\\core\\jtopo\\tools\\layout.js:156"
         },
         {
             "message": "Missing item type\nCreated by qiyc on 2017/4/12.",
-            "line": " develop\\core\\jtopo\\base.js:1"
+            "line": " develop\\core\\jtopo\\main.js:1"
         }
     ]
 }

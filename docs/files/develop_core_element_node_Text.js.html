@@ -189,7 +189,7 @@
                     
                        <li>
                             
-                           <a href="../classes/TextNode.html">TextNode</a>
+                           <a href="../classes/initTextNode.html">initTextNode</a>
                            <ul>
                                 
                            </ul>
@@ -298,7 +298,7 @@
  */
 /**
  * 文本节点
- * @class  TextNode
+ * @class  initTextNode
  * @constructor
  * @extends [N] Node
  * @param [config] 配置参数，无参则按全局配置创建
@@ -320,10 +320,10 @@ var DEFAULT = {
     jsonId:&quot;&quot;,
     border: {
         width: 0,
-        radius: 0,//最大160 最小0
+        radius: 0,
         color: &quot;255,0,0&quot;
     },
-    zIndex: 200,//层级(10-999)
+    zIndex: 3,
     alpha: 1,
     text: &#x27;no text here&#x27;,
     useType: QTopo.constant.node.TEXT
@@ -390,7 +390,7 @@ function setJTopo(config) {
                         radius: 0,//最大160 最小0
                         color: &quot;255,0,0&quot;
                     },
-                    zIndex: 200,//层级(10-999)
+                    zIndex: 3,
                     alpha: 1,
                     text: &#x27;no text here&#x27;,
                     useType: QTopo.constant.node.TEXT

@@ -189,7 +189,7 @@
                     
                        <li>
                             
-                           <a href="../classes/TextNode.html">TextNode</a>
+                           <a href="../classes/initTextNode.html">initTextNode</a>
                            <ul>
                                 
                            </ul>
@@ -320,11 +320,11 @@ var DEFAULT = {
         color: &#x27;10,10,100&#x27;,
         alpha: 0.5,
         draggable: true,
-        zIndex: 10,
+        zIndex: 1,
         jsonId:&quot;&quot;,
         border:{
             width:0,
-            radius:30,//最大160 最小0
+            radius:30,
             color:&quot;255,0,0&quot;
         },
         size:[500,500],
@@ -360,7 +360,7 @@ function Group(config) {
 QTopo.util.inherits(Group,Container);
 //-
 var fixedLayout=function(group, children){
-    if(this.qtopo){
+    if(group.qtopo){
         if(group.width==0||group.height==0){
             group.width=this.qtopo.attr.size[0];
             group.height=this.qtopo.attr.size[1];
@@ -375,7 +375,7 @@ var fixedLayout=function(group, children){
             JTopo.Layout.AutoBoundLayout()(group, children);
         }
     }else{
-        QTopo.util.error(&quot;the container not wrap with qtopo&quot;,this);
+        QTopo.util.error(&quot;the container not wrap with qtopo&quot;,group);
     }
 };
 function resetLocation(groupBound,child){
@@ -478,11 +478,11 @@ Group.prototype.setLayout=function(layout){
                                 color: &#x27;10,10,100&#x27;,
                                 alpha: 0.5,
                                 draggable: true,
-                                zIndex: 10,
+                                zIndex: 1,
                                 jsonId:&quot;&quot;,
                                 border:{
                                     width:0,
-                                    radius:30,//最大160 最小0
+                                    radius:30,
                                     color:&quot;255,0,0&quot;
                                 },
                                 size:[500,500],

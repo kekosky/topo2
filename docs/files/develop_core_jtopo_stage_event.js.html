@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>develop\component\windows\tools\styleSelect.js - QTopo</title>
+    <title>develop\core\jtopo\stage\event.js - QTopo</title>
   
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -288,126 +288,183 @@
             <div id="docs-main">
                 <div class="content">
                     <div class="page-header">
-    <h1>develop\component\windows\tools\styleSelect.js <small>File</small></h1>
+    <h1>develop\core\jtopo\stage\event.js <small>File</small></h1>
 </div>
 
 <div class="file">
     <pre class="prettyprint linenums" id='src_code'>
-var temp = require(&quot;./styleSelect.html&quot;);
-var util = require(&quot;../util.js&quot;);
-module.exports = {
-    init: init
-};
 /**
- * @module component
- * @class windows
+ * Created by qiyc on 2017/4/18.
  */
-/**
- * 公用的样式选择窗口
- * @method styleSelect
- * @param [config] {object} 无值则全部展示 ,
- *
- * 键对应窗口中样式的select框或Input框的name属性,值对应input内初始值或select的选中值 :
- *
- *          支持属性有:
- *          width , height , fontSize , namePosition , borderWidth , borderRadius , direction , linkOffset , linkRadius , linkDash , linkGap ,
- *          arrowSize , arrowOffset , fontColor , color , borderColor
- *
- * @return  {deferred} jquery的延迟执行函数,回调函数传入的参数为,根据开启窗口的设置获取相应的值组成的对象
- * @example
- *      instance.open(&quot;styleSelect&quot;,{
-                    namePosition:&quot;top&quot;,
-                    width:50,
-                    height:50,
-                    borderColor:&quot;255,255,255&quot;
-        })
-            .then(function(op){
-                console.info(op);//若开启时指定namePosition,width,height,borderColor四项，则回调值也是这四项的
-            });
- */
-function init(dom, scene) {
-    temp = $(temp);
-    initChildren(temp);
-    var styleBoxs = getStyleBoxs(temp);
-    var body = temp.find(&quot;.modal-body&quot;);
-    var deferred;
-    var callBack;
-    //隐藏时清空active类
-    temp.on(&quot;hide.bs.modal&quot;, function (e) {
-        if (deferred &amp;&amp; deferred.state() == &quot;pending&quot;) {
-            deferred.reject();
-        }
-    });
-    //暴露的接口
-    temp.open = function (config) {
-        deferred = $.Deferred();
-        temp.modal(&#x27;show&#x27;);
-        callBack = filterBox(config, styleBoxs);
-        return deferred.promise();
+module.exports=function(self,canvas,jtopo){
+    var innerTimeOutId = null;
+    var flag = !0;
+    document.oncontextmenu = function () {
+        return flag
     };
-    //点击确认按钮后用选中图片释放延迟函数
-    temp.find(&quot;.ok&quot;).on(&quot;click&quot;, function () {
-        if (deferred &amp;&amp; deferred.state() == &quot;pending&quot;) {
-            var result = getResult(callBack);
-            deferred.resolve(result);
-        }
-        temp.modal(&#x27;hide&#x27;);
-    });
-    return temp
-}
-function initChildren(win) {
-    //颜色选择框初始化
-    util.initColorSelect(win.find(&quot;.color-group&quot;));
-}
-function getStyleBoxs(win) {
-    var boxs = {};
-    win.find(&quot;.style-box&quot;).each(function () {
-        var self = $(this);
-        boxs[self.attr(&quot;name&quot;)] = self;
-    });
-    return boxs;
-}
-//根据参数决定显示哪些属性
-function filterBox(config, styleBoxs) {
-    var callBack = {};
-    var value;
-    $.each(styleBoxs, function (name, box) {
-        if (config) {
-            value=config[name];
-            if (typeof value!=&#x27;undefined&#x27;) {
-                box.show();
-                callBack[name] = box;
-                boxValue(box,value);
+    init(canvas);
+    function init(canvas) {
+        if (jtopo.util.isIE || !window.addEventListener) {
+            canvas.onmouseout = mouseOut;
+            canvas.onmouseover = mouseOver;
+            canvas.onmousedown = mouseDown;
+            canvas.onmouseup = mouseUp;
+            canvas.onmousemove = mouseMove;
+            canvas.onclick = click;
+            canvas.ondblclick = dbclick;
+            canvas.onmousewheel = mouseWheel;
+            canvas.touchstart = touchStart;
+            canvas.touchmove = mouseMove;
+            canvas.touchend = mouseUp;
+        } else {
+            canvas.addEventListener(&quot;mouseout&quot;, mouseOut);
+            canvas.addEventListener(&quot;mouseover&quot;, mouseOver);
+            canvas.addEventListener(&quot;mousedown&quot;, mouseDown);
+            canvas.addEventListener(&quot;mouseup&quot;, mouseUp);
+            canvas.addEventListener(&quot;mousemove&quot;, mouseMove);
+            canvas.addEventListener(&quot;click&quot;, click);
+            canvas.addEventListener(&quot;dblclick&quot;, dbclick);
+            if (jtopo.util.isFirefox) {
+                canvas.addEventListener(&quot;DOMMouseScroll&quot;, mouseWheel);
             } else {
-                box.hide();
+                canvas.addEventListener(&quot;mousewheel&quot;, mouseWheel);
+            }
+        }
+        if (window.addEventListener) {
+            window.addEventListener(&quot;keydown&quot;, function (event) {
+                self.dispatchEventToScenes(&quot;keydown&quot;, jtopo.util.cloneEvent(event));
+                var keyCode = event.keyCode;
+                if (37 == keyCode || 38 == keyCode || 39 == keyCode || 40 == keyCode) {
+                    if (event.preventDefault) {
+                        event.preventDefault()
+                    } else {
+                        event = event || window.event;
+                        event.returnValue = !1;
+                    }
+                }
+            }, !0);
+            window.addEventListener(&quot;keyup&quot;, function (event) {
+                self.dispatchEventToScenes(&quot;keyup&quot;, jtopo.util.cloneEvent(event));
+                var keyCode = event.keyCode;
+                if (37 == keyCode || 38 == keyCode || 39 == keyCode || 40 == keyCode) {
+                    if (event.preventDefault) {
+                        event.preventDefault()
+                    } else {
+                        event = event || window.event;
+                        event.returnValue = !1;
+                    }
+                }
+            }, !0);
+        }
+    }
+    function getEventObject(event) {
+        var eventPosition = jtopo.util.getEventPosition(event);
+        var offsetPosition = jtopo.util.getOffsetPosition(self.canvas);
+        eventPosition.offsetLeft = eventPosition.pageX - offsetPosition.left;
+        eventPosition.offsetTop = eventPosition.pageY - offsetPosition.top;
+        eventPosition.x = eventPosition.offsetLeft;
+        eventPosition.y = eventPosition.offsetTop;
+        eventPosition.target = null;
+        return eventPosition;
+    }
+
+    function mouseOver(event) {
+        document.onselectstart = function () {
+            return !1
+        };
+        this.mouseOver = !0;
+        event = getEventObject(event);
+        self.dispatchEventToScenes(&quot;mouseover&quot;, event);
+        self.dispatchEvent(&quot;mouseover&quot;, event);
+    }
+
+    function mouseOut(a) {
+        innerTimeOutId = setTimeout(function () {
+            flag = true;
+        }, 500);
+        document.onselectstart = function () {
+            return true;
+        };
+        var b = getEventObject(a);
+        self.dispatchEventToScenes(&quot;mouseout&quot;, b);
+        self.dispatchEvent(&quot;mouseout&quot;, b);
+    }
+
+    function mouseDown(event) {
+        event = getEventObject(event);
+        self.mouseDown = !0;
+        self.mouseDownX = event.x;
+        self.mouseDownY = event.y;
+        self.dispatchEventToScenes(&quot;mousedown&quot;, event);
+        self.dispatchEvent(&quot;mousedown&quot;, event);
+    }
+    function touchStart(event){
+        event = getEventObject(event);
+        self.mouseDown = !0;
+        self.mouseDownX = event.x;
+        self.mouseDownY = event.y;
+        self.dispatchEventToScenes(&quot;touchstart&quot;, event);
+        self.dispatchEvent(&quot;touchstart&quot;, event);
+    }
+    function mouseUp(a) {
+        var b = getEventObject(a);
+        self.mouseDown = !1;
+        self.dispatchEventToScenes(&quot;mouseup&quot;, b);
+        self.dispatchEvent(&quot;mouseup&quot;, b);
+    }
+
+    function mouseMove(event) {
+        if (innerTimeOutId) {
+            window.clearTimeout(innerTimeOutId);
+            innerTimeOutId = null;
+        }
+        flag = !1;
+        event = getEventObject(event);
+        if (self.mouseDown) {
+            if (0 == event.button) {
+                event.dx = event.x - self.mouseDownX;
+                event.dy = event.y - self.mouseDownY;
+                self.dispatchEventToScenes(&quot;mousedrag&quot;, event);
+                self.dispatchEvent(&quot;mousedrag&quot;, event);
+                if (1 == self.eagleEye.visible) {
+                    self.eagleEye.update();
+                }
             }
         } else {
-            callBack = styleBoxs;
-            box.show();
+            self.dispatchEventToScenes(&quot;mousemove&quot;, event);
+            self.dispatchEvent(&quot;mousemove&quot;, event);
         }
-    });
-    return callBack;
-}
-function getResult(callBack) {
-    var result = {};
-    if (callBack) {
-        $.each(callBack, function (name, box) {
-            result[name] = boxValue(box);
-        })
     }
-    return result;
-}
-function boxValue(box, value) {
-    var output = box.find(&quot;.row-item input&quot;);
-    if (output.length == 0) {
-        output = box.find(&quot;.row-item select&quot;);
+
+    function click(event) {
+        event = getEventObject(event);
+        self.dispatchEventToScenes(&quot;click&quot;, event);
+        self.dispatchEvent(&quot;click&quot;, event);
     }
-    if (value) {
-        output.val(value);
-    } else {
-        return output.val();
+
+    function dbclick(event) {
+        event = getEventObject(event);
+        self.dispatchEventToScenes(&quot;dbclick&quot;, event);
+        self.dispatchEvent(&quot;dbclick&quot;, event);
     }
-}
+
+    function mouseWheel(e) {
+        var event = getEventObject(e);
+        self.dispatchEventToScenes(&quot;mousewheel&quot;, event);
+        self.dispatchEvent(&quot;mousewheel&quot;, event);
+        if(null != self.wheelZoom){
+            if(e.preventDefault){
+                e.preventDefault()
+            }else{
+                e = e || window.event;
+                e.returnValue = !1;
+            }
+            if(1 == self.eagleEye.visible){
+                self.eagleEye.update();
+            }
+        }
+    }
+};
     </pre>
 </div>
 

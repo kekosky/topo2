@@ -189,7 +189,7 @@
                     
                        <li>
                             
-                           <a href="../classes/TextNode.html">TextNode</a>
+                           <a href="../classes/initTextNode.html">initTextNode</a>
                            <ul>
                                 
                            </ul>
@@ -527,29 +527,44 @@ function initSearchMode(instance, scene, toolBar, resultWin) {
         if ($.isFunction(searchConfig.search)) {
             var results = searchConfig.search(input.val());
             if (!searchConfig.hideResult) {
-                addResult(results, searchConfig.clickResult);
+                addResult(results, searchConfig.clickResult,searchConfig.ajaxData);
             }
         }
     }
 
-    function addResult(results, click) {
-        if ($.isArray(results) &amp;&amp; results.length &gt; 0) {
-            resultShow.empty();
-            $.each(results, function (i, result) {
-                var li = $(&quot;&lt;li title=&#x27;&quot; + result.content + &quot;&#x27;&gt;&quot; + result.content + &quot;&lt;/li&gt;&quot;)
-                    .data(&#x27;doResult&#x27;, function () {
-                        if ($.isFunction(click)) {
-                            click(result);
-                        }
-                    });
-                resultShow.append(li);
+    function addResult(results, click,ajaxData) {
+        if ($.isArray(results)) {
+            appendResultArr(results);
+        } else if(typeof results !=&#x27;undefined&#x27;&amp;&amp; $.isFunction(results.state)&amp;&amp;$.isFunction(ajaxData)){//为deferred对象
+            results.done(function(data){
+                data=ajaxData(data);
+                if($.isArray(data)){
+                    appendResultArr(data);
+                }else{
+                    QTopo.util.error(&quot;searchResult error ,should be Array :&quot;+arr);
+                }
             });
-            resultWin.show();
-        } else {
-            instance.open(&quot;view&quot;, {
-                content: &quot;无查询结果!&quot;,
-                width: 200
-            });
+        }
+
+        function appendResultArr(results){
+            if(results.length &gt; 0){
+                resultShow.empty();
+                $.each(results, function (i, result) {
+                    var li = $(&quot;&lt;li title=&#x27;&quot; + result.content + &quot;&#x27;&gt;&quot; + result.content + &quot;&lt;/li&gt;&quot;)
+                        .data(&#x27;doResult&#x27;, function () {
+                            if ($.isFunction(click)) {
+                                click(result);
+                            }
+                        });
+                    resultShow.append(li);
+                });
+                resultWin.show();
+            }else{
+                instance.open(&quot;view&quot;, {
+                    content: &quot;无查询结果!&quot;,
+                    width: 200
+                });
+            }
         }
     }
     var showTime;
