@@ -10,7 +10,8 @@ module.exports = {
         "core":__dirname + "/develop/main.js",//入口文件
         "component":__dirname + "/develop/component/component.js",
         "iposs":__dirname+"/iposs/main.js",
-        "jtopo2":__dirname+"/develop/core/jtopo/index.js"
+        "jtopo2":__dirname+"/develop/core/jtopo/index.js",
+        "zk":__dirname+"/zk/index.js"
     },
     output: {
         path: __dirname + "/topo_iposs/qtopo",//打包后的文件存放的地方

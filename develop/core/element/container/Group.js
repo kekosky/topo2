@@ -64,42 +64,6 @@ function Group(config) {
 }
 QTopo.util.inherits(Group,Container);
 //-
-var fixedLayout=function(group, children){
-    if(group.qtopo){
-        if(group.width==0||group.height==0){
-            group.width=this.qtopo.attr.size[0];
-            group.height=this.qtopo.attr.size[1];
-        }
-        if(group.width>0&&group.height>0){
-            var groupBound=group.getBound();
-            children.map(function(child){
-                resetLocation(groupBound,child);
-            });
-        }else{
-            //若未设置高宽则运行一次自动布局设置高宽
-            JTopo.Layout.AutoBoundLayout()(group, children);
-        }
-    }else{
-        QTopo.util.error("the container not wrap with qtopo",group);
-    }
-};
-function resetLocation(groupBound,child){
-    var childBound=child.getBound();
-    var location=child.getLocation();
-    if(childBound.bottom>groupBound.bottom){
-        location.y=groupBound.bottom-childBound.height;
-    }
-    if(childBound.right>groupBound.right){
-        location.x=groupBound.right-childBound.width;
-    }
-    if(childBound.left<groupBound.left){
-        location.x=groupBound.left;
-    }
-    if(childBound.top<groupBound.top){
-        location.y=groupBound.top;
-    }
-    child.setLocation(location.x,location.y);
-}
 /**
  *  元素对属性的统一设置函数，推荐使用
  *
@@ -152,7 +116,7 @@ Group.prototype.setLayout=function(layout){
                 break;
             case 'fixed':
                 //固定长宽布局
-                selected = fixedLayout;
+                selected = JTopo.Layout.FixedBoundLayout();
                 this.attr.layout=layout;
                 break;
             default:

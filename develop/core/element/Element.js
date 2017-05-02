@@ -43,32 +43,14 @@ Element.prototype.setJsonId = function (id) {
  *  @method [E] show
  */
 Element.prototype.show = function () {
-    switch (this.getType()) {
-        case QTopo.constant.NODE:
-            toggleNode.call(this, true);
-            break;
-        case QTopo.constant.CONTAINER:
-            toggleContainer.call(this, true);
-            break;
-        case QTopo.constant.LINK:
-            toggleLink.call(this, true);
-    }
+    this.jtopo.show();
 };
 /**
  *  隐藏元素
  *  @method [E] hide
  */
 Element.prototype.hide = function () {
-    switch (this.getType()) {
-        case QTopo.constant.NODE:
-            toggleNode.call(this, false);
-            break;
-        case QTopo.constant.CONTAINER:
-            toggleContainer.call(this, false);
-            break;
-        case QTopo.constant.LINK:
-            toggleLink.call(this, false);
-    }
+    this.jtopo.hide();
 };
 /**
  *  设置使用类型
@@ -362,48 +344,6 @@ Element.prototype.val = function (key, value) {
         }
     }
 };
-/*
- * 对象links属性内的所有线进行切换
- * @links node/container的links属性
- * @fnName 'show'/'hide'方法名
- */
-function toggle(links, fnName) {
-    try {
-        $.each(links, function (name, arr) {
-            arr.forEach(function (item) {
-                item[fnName]();
-            });
-        })
-    } catch (e) {
-        QTopo.util.error("切换隐藏/显示时错误", e);
-    }
-}
-//线的显示只有当其两端节点都显示时才显示
-function toggleLink(flag) {
-    if (flag) {
-        if (this.path.start.jtopo && this.path.end.jtopo) {
-            if (this.path.start.jtopo.visible && this.path.end.jtopo.visible) {
-                this.jtopo.visible = true;
-            }
-        }
-    } else {
-        this.jtopo.visible = false;
-    }
-}
-function toggleNode(flag) {
-    this.jtopo.visible = flag;
-    var string = flag ? "show" : "hide";
-    toggle(this.links, string);
-}
-function toggleContainer(flag) {
-    this.jtopo.visible = flag;
-    var string = flag ? "show" : "hide";
-    //切换子类显示隐藏
-    for (var i = 0; i < this.children.length; i++) {
-        this.children[i][string]();
-    }
-    toggle(this.links, string);
-}
 /**
  * 获取元素中心坐标
  *  @method [E] getCenterPosition

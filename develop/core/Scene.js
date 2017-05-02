@@ -242,7 +242,7 @@ Scene.prototype.setBackgroundImage = function (image) {
 Scene.prototype.setBackgroundColor = function (color) {
     this.jtopo.backgroundColor = QTopo.util.transHex(color);
     this.jtopo.alpha = 1;
-    this.attr.background = QTopo.util.transHex(color);
+    this.attr.background = this.jtopo.backgroundColor;
 };
 /**
  *  设置图层模式

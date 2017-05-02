@@ -46,7 +46,7 @@ module.exports=function(jtopo){
         }
         return position;
     };
-    FoldLink.prototype.getPath = function (Index) {
+    FoldLink.prototype.getPath = function (total) {
         var start = this.getStartPosition();
         var end = this.getEndPosition();
         if (this.nodeA === this.nodeZ) {
@@ -55,9 +55,8 @@ module.exports=function(jtopo){
         var path = [];
         var middleX;
         var middleY;
-        var NUMS = util.getNums(this.nodeA, this.nodeZ);
-        var benginGap = (NUMS - 1) * this.gap;
-        var totalGap = this.gap * Index - benginGap / 2;
+        var benginGap = (total - 1) * this.gap;
+        var totalGap = this.gap * this.nodeIndex - benginGap / 2;
         if ("horizontal" == this.direction) {
             middleX = end.x + totalGap;
             middleY = start.y - totalGap;

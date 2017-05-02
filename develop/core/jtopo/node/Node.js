@@ -15,8 +15,6 @@ module.exports = function (jtopo) {
         this.textOffsetX = 0;
         this.textOffsetY = 0;
         this.transformAble = !0;
-        this.inLinks = null;
-        this.outLinks = null;
         var d = "text,font,fontColor,textPosition,textOffsetX,textOffsetY,borderRadius".split(",");
         this.serializedProperties = this.serializedProperties.concat(d);
     }
@@ -38,6 +36,23 @@ module.exports = function (jtopo) {
             }
         }
     });
+    function toggle(arr,str){
+        if(arr instanceof Array){
+            arr.forEach(function(link){
+                link[str]();
+            });
+        }
+    }
+    Node.prototype.hide = function () {
+        this.visible = false;
+        toggle(this.inLinks,"hide");
+        toggle(this.outLinks,"hide");
+    };
+    Node.prototype.show = function () {
+        this.visible = true;
+        toggle(this.inLinks,"show");
+        toggle(this.outLinks,"show");
+    };
     //自定义新增,启用告警后每次绘画执行修改阴影
     Node.prototype.paintAlarmFlash = function (context) {
         if (this.shadow == 1 && this.allowAlarmFlash == 1) {
@@ -98,7 +113,7 @@ module.exports = function (jtopo) {
             if (null == this.borderRadius || 0 == this.borderRadius) {
                 context.rect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth);
             } else {
-                context.JTopoRoundRect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius);
+                context._roundRect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth, this.borderRadius);
             }
             context.stroke();
             context.closePath();

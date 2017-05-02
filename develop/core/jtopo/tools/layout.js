@@ -9,11 +9,12 @@ module.exports = function (jtopo) {
         GridLayout: GridLayout,
         FlowLayout: FlowLayout,
         AutoBoundLayout: AutoBoundLayout,
+        FixedBoundLayout: FixedBoundLayout,
         CircleLayout: CircleLayout,
         TreeLayout: TreeLayout,
         getNodesCenter: getNodesCenter,
         circleLayoutNodes: circleLayoutNodes
-    }
+    };
     function getNodesCenter(a) {
         var b = 0, c = 0;
         a.forEach(function (a) {
@@ -83,6 +84,9 @@ module.exports = function (jtopo) {
                         var node = childs[childIndex++];
                         var x = cBound.left + columSpace / 2 + columnIndex * columSpace;
                         var y = cBound.top + rowSpace / 2 + rowsIndex * rowSpace;
+                        if(!child.visible){
+                            child.show();
+                        }
                         node.setLocation(x, y);
                         if (childIndex >= childs.length) {
                             return
@@ -109,6 +113,9 @@ module.exports = function (jtopo) {
                 var top = bound.top;
                 for (var i = 0; i < childs.length; i++) {
                     var child = childs[i];
+                    if(!child.visible){
+                        child.show();
+                    }
                     if (left + child.width >= bound.right) {
                         left = bound.left;
                         top += row + child.height;
@@ -131,6 +138,9 @@ module.exports = function (jtopo) {
                     height = bottom - top;
                 for (var i = 0; i < children.length; i++) {
                     var child = children[i];
+                    if(!child.visible){
+                        child.show();
+                    }
                     child.x <= left && (left = child.x);
                     (child.x + child.width) >= right && (right = child.x + child.width);
                     child.y <= top && (top = child.y);
@@ -151,6 +161,47 @@ module.exports = function (jtopo) {
                 container.qtopo.attr.size[1] = container.height;
             }
         }
+    }
+
+    function FixedBoundLayout() {
+        return function (container, children) {
+            if (container.width <= 0) {
+                container.width = 100;
+            }
+            if (container.height <= 0) {
+                container.height = 100;
+            }
+            if (container.width > 0 && container.height > 0) {
+                var groupBound = container.getBound();
+                children.map(function (child) {
+                    resetLocation(groupBound, child);
+                });
+            } else {
+                //若未设置高宽则运行一次自动布局设置高宽
+                AutoBoundLayout()(container, children);
+            }
+        }
+    }
+
+    function resetLocation(groupBound, child) {
+        var childBound = child.getBound();
+        var location = child.getLocation();
+        if (childBound.bottom > groupBound.bottom) {
+            location.y = groupBound.bottom - childBound.height;
+        }
+        if (childBound.right > groupBound.right) {
+            location.x = groupBound.right - childBound.width;
+        }
+        if (childBound.left < groupBound.left) {
+            location.x = groupBound.left;
+        }
+        if (childBound.top < groupBound.top) {
+            location.y = groupBound.top;
+        }
+        if(!child.visible){
+            child.show();
+        }
+        child.setLocation(location.x, location.y);
     }
 
     /**
@@ -281,8 +332,8 @@ module.exports = function (jtopo) {
 
     function m(a, b, c, d, e, f) {
         var g = [];
-        for (var h = 0; c > h; h++){
-            for (var i = 0; d > i; i++){
+        for (var h = 0; c > h; h++) {
+            for (var i = 0; d > i; i++) {
                 g.push({x: a + i * e, y: b + h * f});
             }
         }

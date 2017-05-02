@@ -77,6 +77,7 @@ Link.prototype.setNumber = function (number) {
             this.jtopo.text = '';
         }
         this.attr.number = number;
+        this.jtopo.childs=number;
     }
 };
 /**

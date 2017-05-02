@@ -49,7 +49,7 @@ module.exports = function (jtopo) {
         }
         return position;
     };
-    FlexionalLink.prototype.getPath = function (index) {
+    FlexionalLink.prototype.getPath = function (total) {
         var path = [];
         var start = this.getStartPosition();
         var end = this.getEndPosition();
@@ -58,9 +58,8 @@ module.exports = function (jtopo) {
                 path.push(start);
                 path.push(end);
             }else{
-                var totalLinks = util.getNums(this.nodeA, this.nodeZ);
-                var totalGap = (totalLinks - 1) * this.gap;
-                var gap = this.gap * index - totalGap / 2;
+                var totalGap = (total - 1) * this.gap;
+                var gap = this.gap * this.nodeIndex - totalGap / 2;
                 var linkOffset = this.offset;
                 if ("horizontal" == this.direction) {
                     if (this.nodeA.cx > this.nodeZ.cx) {

@@ -72,7 +72,7 @@ gulp.task('concatCss', function () {                                //- 创建�
 gulp.task('watch', function () {
     gulp.watch(homePage, ['reload']);
     gulp.watch(scss, ['sass']);
-    gulp.watch(["develop/**/*.js","develop/**/*.html","develop/**/*.css","iposs/**/*"], ['build']);
+    gulp.watch(["develop/**/*.js","develop/**/*.html","develop/**/*.css","iposs/**/*","zk/**/*"], ['build']);
 });
 
 //服务器任务，提供在线查看功能
@@ -85,10 +85,17 @@ gulp.task('serve', function () {
     });
 });
 gulp.task("copy",function(){
-    return gulp.src([
-        'topo_iposs/qtopo/qtopo.component.min.js',
-        'topo_iposs/qtopo/qtopo.core.min.js',
-        'qtopo.css'
-    ])
+    gulp.src([
+            'topo_iposs/qtopo/qtopo.component.min.js',
+            'topo_iposs/qtopo/qtopo.core.min.js',
+            'topo_iposs/qtopo/qtopo.css'
+        ])
         .pipe(gulp.dest('public/qtopo'));
+    gulp.src([
+            'topo_iposs/qtopo/qtopo.zk.min.js',
+            'topo_iposs/qtopo/qtopo.component.min.js',
+            'topo_iposs/qtopo/qtopo.core.min.js',
+            'topo_iposs/qtopo/qtopo.css'
+        ])
+        .pipe(gulp.dest('topo_zk/topo'));
 });

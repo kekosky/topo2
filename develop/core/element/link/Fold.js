@@ -140,7 +140,7 @@ FoldLink.prototype.setRadius = function (radius) {
         } else if (radius < 0) {
             radius = 0;
         }
-        this.attr.radius = radius;
+        this.jtopo.radius=this.attr.radius = radius;
     }
 };
 //-

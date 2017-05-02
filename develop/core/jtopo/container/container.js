@@ -4,6 +4,7 @@ module.exports = function (jtopo) {
         jtopo.InteractiveElement.call(this);
         this.elementType = "container";
         this.zIndex = jtopo.zIndex_Container;
+        this.expand=true;
         this.width = 100;
         this.height = 100;
         this.childs = [];
@@ -21,9 +22,32 @@ module.exports = function (jtopo) {
         this.textPosition = "Bottom_Center";
         this.textOffsetX = 0;
         this.textOffsetY = 0;
-        this.layout = new jtopo.layout.AutoBoundLayout;
+        this.layout = jtopo.layout.AutoBoundLayout();
     }
     jtopo.util.inherits(Container,jtopo.InteractiveElement);
+    function toggle(arr,str){
+        if(arr instanceof Array){
+            arr.forEach(function(link){
+                link[str]();
+            });
+        }
+    }
+    Container.prototype.hide = function () {
+        this.visible = false;
+        this.childs.forEach(function(node){
+            node.hide();
+        });
+        toggle(this.inLinks,"hide");
+        toggle(this.outLinks,"hide");
+    };
+    Container.prototype.show = function () {
+        this.visible = true;
+        this.childs.forEach(function(node){
+            node.show();
+        });
+        toggle(this.inLinks,"show");
+        toggle(this.outLinks,"show");
+    };
     Container.prototype.add = function (element) {
         this.childs.push(element);
         element.draggable = this.childDraggable;
@@ -56,18 +80,20 @@ module.exports = function (jtopo) {
     };
     Container.prototype.paint = function (context) {
         if (this.visible) {
-            this.doLayout(this.layout);
-            if (null == this.borderRadius || 0 == this.borderRadius) {
-                context.beginPath();
-                context.rect(this.x, this.y, this.width, this.height);
-                context.closePath();
-            } else {
-                context._roundRect(this.x, this.y, this.width, this.height, this.borderRadius);
+            if(this.expand){
+                this.doLayout(this.layout);
+                if (null == this.borderRadius || 0 == this.borderRadius) {
+                    context.beginPath();
+                    context.rect(this.x, this.y, this.width, this.height);
+                    context.closePath();
+                } else {
+                    context._roundRect(this.x, this.y, this.width, this.height, this.borderRadius);
+                }
+                context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
+                context.fill();
+                this.paintBorder(context);
+                this.paintText(context);
             }
-            context.fillStyle = "rgba(" + this.fillColor + "," + this.alpha + ")";
-            context.fill();
-            this.paintBorder(context);
-            this.paintText(context);
         }
     };
     Container.prototype.paintBorder = function (context) {
