@@ -98,9 +98,9 @@ module.exports = function (jtopo) {
                 }
             }
             for (var i = 1; i < path.length; i++) {
-                if (attr.radius > 0) {
+                if (this.radius > 0) {
                     if (i < path.length - 1) {
-                        context.arcTo(path[i].x, path[i].y, path[i + 1].x, path[i + 1].y, attr.radius);//增加折线弧度
+                        context.arcTo(path[i].x, path[i].y, path[i + 1].x, path[i + 1].y, this.radius);//增加折线弧度
                     } else {
                         context.lineTo(path[i].x, path[i].y);
                     }
