@@ -250,12 +250,7 @@ Scene.prototype.setBackgroundColor = function (color) {
  *  @param mode {string} 例:QTopo.constant.mode.NORMAL
  */
 Scene.prototype.setMode = function (mode) {
-    if (["normal", "edit", "drag", "select"].indexOf(mode) > -1) {
-        this.attr.mode = mode;
-        this.jtopo.mode = mode;
-    } else {
-        QTopo.util.error("set wrong mode :", mode);
-    }
+    this.attr.mode = this.jtopo.mode=mode;
 };
 /**
  *  图层清空，清除图层内所有元素

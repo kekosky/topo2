@@ -20,7 +20,7 @@ module.exports = function (jtopo) {
         this.serializedProperties = this.serializedProperties.concat(d);
     }
 
-    jtopo.util.inherits(Node, jtopo.EditableElement);
+    jtopo.util.inherits(Node, jtopo.InteractiveElement);
     Object.defineProperties(Node.prototype, {
         alarmColor: {
             get: function () {
@@ -102,7 +102,6 @@ module.exports = function (jtopo) {
         }
         this.paintBorder(context);
         this.paintText(context);
-        this.paintCtrl(context);
         this.paintAlarmText(context);
     };
     Node.prototype.paintBorder = function (context) {

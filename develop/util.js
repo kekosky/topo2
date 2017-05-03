@@ -26,11 +26,15 @@ var util = {
          * 字符串转化json
          * @method toJson
          * @param json {string|object}
+         * @param [flag] {boolean} 是否需要替换'到"的处理
          * @returns json对象 {json}
          */
-        toJson: function (json) {
+        toJson: function (json,flag) {
             if (typeof json == 'string') {
-                json = $.parseJSON(json.replace(/'/g, '"'));
+                if(!flag){
+                    json=json.replace(/'/g, '"');
+                }
+                json = $.parseJSON(json);
             }
             return json;
         },
