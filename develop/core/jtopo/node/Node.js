@@ -7,6 +7,7 @@ module.exports = function (jtopo) {
         this.text = text;
         this.font = "12px Consolas";
         this.fontColor = "255,255,255";
+        this.borderAlpha=1;
         this.borderWidth = 0;
         this.borderColor = "255,255,255";
         this.borderRadius = null;
@@ -108,7 +109,7 @@ module.exports = function (jtopo) {
         if (0 != this.borderWidth) {
             context.beginPath();
             context.lineWidth = this.borderWidth;
-            context.strokeStyle = "rgba(" + this.borderColor + "," + this.alpha + ")";
+            context.strokeStyle = "rgba(" + this.borderColor + "," + this.borderAlpha + ")";
             var b = this.borderWidth / 2;
             if (null == this.borderRadius || 0 == this.borderRadius) {
                 context.rect(-this.width / 2 - b, -this.height / 2 - b, this.width + this.borderWidth, this.height + this.borderWidth);

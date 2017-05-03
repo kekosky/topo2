@@ -59,9 +59,9 @@ $(document).ready(function () {
     var table=$("#alarm_detail");
     function test(data){
         scene.on('click',function(e){console.info(e.x,e.y);})
-        data.node=[];
-        data.link=[];
-        data.container=[];
+        //data.node=[];
+        //data.link=[];
+        //data.container=[];
         //for(var i= 0;i<100;i++){
         //    data.node.push({
         //        position:[Math.random()*10000,Math.random()*10000],
@@ -70,48 +70,48 @@ $(document).ready(function () {
         //        name:"测试"+i
         //    });
         //}
-        data.node.push({
-            position:[-200,-200],
-            size:[100,100],
-            id:11111,
-            name:"测试\nhhhh",
-            image:'',
-                border:{
-                    width:50,
-                    radius:30,
-                    color:"255,0,0"
-                },
-        },
-            {
-                position:[400,100],
-                id:22222,
-                size:[100,100]
-            },{
-                position:[200,-200],
-                size:[100,100],
-                id:33333
-            });
-        data.link.push({
-            start:11111,
-            end:22222,
-            width:5,
-            radius:25,
-            arrow:{
-                end:true,
-                start:true,
-                size:15
-            },
-            extra:{
-                type:1
-            },
-            type:QTopo.constant.link.FLEXIONAL
-        });
-        data.link.push({
-            start:11111,
-            end:33333,
-            width:5,
-            type:QTopo.constant.link.CURVE
-        });
+        //data.node.push({
+        //    position:[-200,-200],
+        //    size:[100,100],
+        //    id:11111,
+        //    name:"测试\nhhhh",
+        //    image:'',
+        //        border:{
+        //            width:50,
+        //            radius:30,
+        //            color:"255,0,0"
+        //        },
+        //},
+        //    {
+        //        position:[400,100],
+        //        id:22222,
+        //        size:[100,100]
+        //    },{
+        //        position:[200,-200],
+        //        size:[100,100],
+        //        id:33333
+        //    });
+        //data.link.push({
+        //    start:11111,
+        //    end:22222,
+        //    width:5,
+        //    radius:25,
+        //    arrow:{
+        //        end:true,
+        //        start:true,
+        //        size:15
+        //    },
+        //    extra:{
+        //        type:1
+        //    },
+        //    type:QTopo.constant.link.FLEXIONAL
+        //});
+        //data.link.push({
+        //    start:11111,
+        //    end:33333,
+        //    width:5,
+        //    type:QTopo.constant.link.CURVE
+        //});
     }
     $.ajax(dataUrl).done(function(data){
         $.ajax(alarmUrl).done(function(alarm){

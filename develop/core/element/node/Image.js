@@ -31,7 +31,8 @@ var DEFAULT= {
     border:{
         width:0,
         radius:0,
-        color:"255,0,0"
+        color:"255,0,0",
+        alpha:1
     },
     zIndex: 3,
     color: JTopo.util.randomColor(),

@@ -201,25 +201,11 @@ function getMenus(instance,scene, menu) {
             /**
              * 元素的一般操作子菜单
              * @property 元素切换
-             *  @param 层次切换
              *  @param 相关高亮
              */
             name: "元素切换",
             order:10,
             item: [
-                {
-                    /**
-                     * 元素的显示层级切换,首次切换成最高级，已到最高级的降至最低级
-                     * @property 层次切换
-                     */
-                    name: "层次切换",
-                    click: function () {
-                        scene.toggleZIndex(menu.target);
-                    },
-                    filter: function (target) {
-                        return Qutil.isElement(target);
-                    }
-                },
                 {
                     /**
                      * 将与元素相关联的元素以及链路高亮，其他元素和链路透明度降低

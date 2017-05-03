@@ -121,8 +121,8 @@
         if (window.jQuery != null && (obj.string == '$' || obj.string == 'jQuery') &&
             (typeof window.jQuery == 'function'))
           base = window.jQuery();
-        else if (window._ != null && (obj.string == '_') && (typeof window._ == 'function'))
-          base = window._();
+        else if (window.CONST != null && (obj.string == '_') && (typeof window.CONST == 'function'))
+          base = window.CONST();
       }
       while (base != null && context.length)
         base = base[context.pop().string];

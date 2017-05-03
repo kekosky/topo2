@@ -586,6 +586,9 @@ Scene.prototype.createContainer = function (config) {
         var nodeConfig = {};
         if (config.toggle) {
             nodeConfig = config.toggle
+            if(typeof nodeConfig.name=='undefined'){
+                nodeConfig.name=newContainer.get("name");
+            }
         }
         //可选禁用分组切换
         if (!(config.toggle && typeof config.toggle.close == "boolean" && config.toggle.close)) {
@@ -812,40 +815,6 @@ Scene.prototype.getPicture = function () {
     // var image =  stage.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png");
     //var image = stage.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     //window.location.href=image; // it will save locally
-};
-/**
- * 切换元素的层次
- * @method toggleZIndex
- * @param element 待控制元素
- * @param [flag] true为降低false为提升，无参则默认提升，若已提升到最高则降至最低
- */
-Scene.prototype.toggleZIndex = function (element, flag) {
-    if (element) {
-        var jtopo = element.jtopo;
-        var scene = this.jtopo;
-        if (jtopo && scene) {
-            var map = scene.zIndexMap[jtopo.zIndex];
-            var index = map.indexOf(jtopo);
-            var todo = true;
-            if (typeof flag == 'boolean') {
-                todo = flag;
-            } else {
-                if (index == map.length - 1) {
-                    todo = false;
-                }
-            }
-            if (todo) {
-                //提升层次
-                map.push(map[index]);
-                map.splice(index, 1);
-
-            } else {
-                //降低层次
-                map.splice(0, 0, map[index]);
-                map.splice(index + 1, 1);
-            }
-        }
-    }
 };
 var selectedCatch = {
     jtopo: [],

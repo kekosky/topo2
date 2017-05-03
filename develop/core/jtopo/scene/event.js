@@ -1,28 +1,38 @@
-module.exports=function(jtopo){
-    function domouseDown(event) {
-        event = this.toSceneEvent(event);
-        this.mouseDown = !0;
-        this.mouseDownX = event.x;
-        this.mouseDownY = event.y;
-        this.mouseDownEvent = event;
-        switch (this.mode) {
+module.exports = function (jtopo) {
+    function upZindex(scene, element) {
+        if (element) {
+            var map = scene.zIndexMap[element.zIndex];
+            var index = map.indexOf(element);
+            //提升层次
+            map.push(map[index]);
+            map.splice(index, 1);
+        }
+    }
+    function domouseDown(scene,event) {
+        event = scene.toSceneEvent(event);
+        scene.mouseDown = !0;
+        scene.mouseDownX = event.x;
+        scene.mouseDownY = event.y;
+        scene.mouseDownEvent = event;
+        switch (scene.mode) {
             case jtopo.SceneMode.drag:
-                if (1 == this.translate) {
-                    this.lastTranslateX = this.translateX;
-                    this.lastTranslateY = this.translateY;
+                if (1 == scene.translate) {
+                    scene.lastTranslateX = scene.translateX;
+                    scene.lastTranslateY = scene.translateY;
                 }
                 break;
             case jtopo.SceneMode.select:
-                this.selectElement(event);
+                scene.selectElement(event);
                 break;
             default://jtopo.SceneMode.normal || jtopo.SceneMode.edit
-                this.selectElement(event);
-                if ((null == this.currentElement || this.currentElement instanceof jtopo.Link) && 1 == this.translate) {
-                    this.lastTranslateX = this.translateX;
-                    this.lastTranslateY = this.translateY;
+                scene.selectElement(event);
+                if ((null == scene.currentElement || scene.currentElement instanceof jtopo.Link) && 1 == scene.translate) {
+                    scene.lastTranslateX = scene.translateX;
+                    scene.lastTranslateY = scene.translateY;
                 }
         }
     }
+
     jtopo.Scene.prototype.addToSelected = function (element) {
         this.selectedElements.push(element);
     };
@@ -72,7 +82,8 @@ module.exports=function(jtopo){
         } else {
             event.ctrlKey || this.cancleAllSelected();
         }
-        this.currentElement = element
+        this.currentElement = element;
+        upZindex(this,this.currentElement);
     };
     jtopo.Scene.prototype.cancleAllSelected = function (context) {
         this.selectedElements.forEach(function (element) {
@@ -92,15 +103,15 @@ module.exports=function(jtopo){
         }
     };
     jtopo.Scene.prototype.mousedownHandler = function (event) {
-        domouseDown.call(this, event);
+        domouseDown(this, event);
         this.dispatchEvent("mousedown", event);
     };
     jtopo.Scene.prototype.touchstartHandler = function (event) {
-        domouseDown.call(this, event);
+        domouseDown(this, event);
         this.dispatchEvent("touchstart", event);
     };
     jtopo.Scene.prototype.mouseupHandler = function (event) {
-        var self=this;
+        var self = this;
         self.clearOperations();
         event = this.toSceneEvent(event);
         if (null != this.currentElement) {
@@ -139,7 +150,7 @@ module.exports=function(jtopo){
         this.dispatchEvent("mousedrag", event);
     };
     jtopo.Scene.prototype.areaSelectHandle = function (event) {
-        var self=this;
+        var self = this;
         var dragX = event.offsetLeft;
         var dragY = event.offsetTop;
         var downX = this.mouseDownEvent.offsetLeft;
@@ -265,6 +276,6 @@ module.exports=function(jtopo){
     };
     jtopo.Scene.prototype.dispatchEvent = function (a, b) {
         this.messageBus.publish(a, b);
-        return  this;
+        return this;
     };
 };

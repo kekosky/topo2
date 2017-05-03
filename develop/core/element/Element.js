@@ -90,12 +90,16 @@ Element.prototype.setBorder = function (border) {
     if (border.color) {
         jtopo.borderColor = QTopo.util.transHex(border.color.toLowerCase());
     }
+    if($.isNumeric(border.alpha)){
+        jtopo.borderAlpha = Number(border.alpha);
+    }
     if ($.isNumeric(border.width)) {
         jtopo.borderWidth = parseInt(border.width);
     }
     if ($.isNumeric(border.radius)) {
         jtopo.borderRadius = parseInt(border.radius);
     }
+    this.attr.border.alpha=jtopo.borderAlpha;
     this.attr.border.color = jtopo.borderColor;
     this.attr.border.width = jtopo.borderWidth;
     this.attr.border.radius = jtopo.borderRadius;
@@ -176,7 +180,7 @@ Element.prototype.setFont = function (font) {
  */
 Element.prototype.setAlpha = function (alpha) {
     if ($.isNumeric(alpha) && alpha <= 1 && alpha > 0) {
-        this.jtopo.alpha = alpha;
+        this.jtopo.alpha = Number(alpha);
     } else {
         this.jtopo.alpha = 1;
     }

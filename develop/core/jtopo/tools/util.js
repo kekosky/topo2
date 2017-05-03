@@ -36,7 +36,7 @@ module.exports = function (JTopo) {
         getElementsBound: getElementsBound,
         genImageAlarm: genImageAlarm,
         getOffsetPosition: getOffsetPosition,
-        inherits:inherits
+        inherits: inherits
     };
 
 
@@ -87,17 +87,9 @@ module.exports = function (JTopo) {
             });
         }
     };
-    function getDistance(pointA, pointB, c, d) {
-        var width, height;
-        if (null == c && null == d) {
-            if (pointA && pointB) {
-                width = pointB.x - pointA.x;
-                height = pointB.y - pointA.y;
-            }
-        } else {
-            width = c - pointA;
-            height = d - pointB;
-        }
+    function getDistance(pointA, pointB) {
+        var width = pointB.x - pointA.x;
+        var height = pointB.y - pointA.y;
         return Math.sqrt(width * width + height * height);
     }
 
@@ -194,9 +186,9 @@ module.exports = function (JTopo) {
     }
 
     function removeFromArray(arr, item) {
-        var index=arr.indexOf(item);
-        if(index>-1){
-            arr.splice(index,1);
+        var index = arr.indexOf(item);
+        if (index > -1) {
+            arr.splice(index, 1);
         }
         return arr
     }
@@ -284,6 +276,7 @@ module.exports = function (JTopo) {
         }
         return {left: c, top: b}
     }
+
     function inherits(childClazz, FatherClazz) {
         var clazzPrototype = childClazz.prototype;
 
