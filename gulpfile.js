@@ -45,7 +45,6 @@ gulp.task('sass', function (done) {
 //合并压缩依赖的js
 var lib = "public/lib/";
 var yilaiJs = [lib + 'jquery/jquery.min.js', lib + 'bootstrap-3.3.6-dist/js/bootstrap.js', lib + 'jquery-nicescroll/jquery.nicescroll.min.js'];
-//var newwww=["./new/concat.js","./new/qtopo.core.min.js","./new/qtopo.component.min.js"];
 gulp.task("concatJs", function () {
     gulp.src(yilaiJs).pipe(concat('concat.js')).pipe(uglify()).pipe(gulp.dest('./public/lib/concat'));
 });
