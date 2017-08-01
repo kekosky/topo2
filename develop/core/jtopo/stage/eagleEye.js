@@ -90,19 +90,19 @@ module.exports = function initEagleEye(stage) {
         },
         paint: function () {
             if (null != this.eagleImageDatas) {
-                var b = stage.graphics;
-                b.save();
-                b.fillStyle = "rgba(211,211,211,0.3)";
-                b.fillRect(stage.canvas.width - this.canvas.width - 2 * this.hgap, stage.canvas.height - this.canvas.height - 1, stage.canvas.width - this.canvas.width, this.canvas.height + 1);
-                b.fill();
-                b.save();
-                b.lineWidth = 1;
-                b.strokeStyle = "rgba(0,0,0,1)";
-                b.rect(stage.canvas.width - this.canvas.width - 2 * this.hgap, stage.canvas.height - this.canvas.height - 1, stage.canvas.width - this.canvas.width, this.canvas.height + 1);
-                b.stroke();
-                b.restore();
-                b.putImageData(this.eagleImageDatas, stage.canvas.width - this.canvas.width - this.hgap, stage.canvas.height - this.canvas.height);
-                b.restore()
+                var context = stage.graphics;
+                context.save();
+                context.fillStyle = "rgba(211,211,211,0.3)";
+                context.fillRect(stage.canvas.width - this.canvas.width - 2 * this.hgap, stage.canvas.height - this.canvas.height - 1, stage.canvas.width - this.canvas.width, this.canvas.height + 1);
+                context.fill();
+                context.save();
+                context.lineWidth = 1;
+                context.strokeStyle = "rgba(0,0,0,1)";
+                context.rect(stage.canvas.width - this.canvas.width - 2 * this.hgap, stage.canvas.height - this.canvas.height - 1, stage.canvas.width - this.canvas.width, this.canvas.height + 1);
+                context.stroke();
+                context.restore();
+                context.putImageData(this.eagleImageDatas, stage.canvas.width - this.canvas.width - this.hgap, stage.canvas.height - this.canvas.height);
+                context.restore()
             } else {
                 this.eagleImageDatas = this.getData(stage);
             }

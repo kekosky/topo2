@@ -79,7 +79,7 @@ gulp.task('serve', function () {
     connect.server({
         root: root,
         //fallback: homePage,
-        port: 8090,
+        port: 8000,
         livereload: true
     });
 });
