@@ -46,6 +46,10 @@ $(document).ready(function () {
             }
         }
     });
+    $.ajax("./data/newdata.json").done(function(data){
+        topo.setOption(data.option).scene.goCenter();
+    })
+    
     topo.open("progress",{state: 10, info: '正在读取'});
     //设置鼠标提示框显示内容，以及响应的元素
     //自动设置大小
@@ -115,6 +119,7 @@ $(document).ready(function () {
     }
     $.ajax(dataUrl).done(function(data){
         $.ajax(alarmUrl).done(function(alarm){
+            return false;
             var myData=getTopoData(data, alarm);
             test(myData);
             //正式绘制topo图，传入参数绘图,setOption 接受2个参数，第一个为图的绘制，第2个为boolean类型,true则清空当前图重绘，false则在原图上添加,默认为false

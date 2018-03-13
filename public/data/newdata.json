@@ -1,0 +1,292 @@
+{
+    "init": {
+        "mode": "select",
+        "backgroundImage": "",
+        "background": "6,36,62",
+        "extra": {}
+    },
+    "option": {
+        "node": {
+            "data": [{
+                "image": "img/node.png",
+                "size": [60, 60],
+                "name": "JSWUX-PS-IMS-CE34-HWNE40EX8",
+                "alpha": 1,
+                "position": [746.9471390428761, 569.0235389901944],
+                "font": {
+                    "size": 16,
+                    "type": "微软雅黑",
+                    "color": "255,255,255"
+                },
+                "draggable": true,
+                "jsonId": "d23b-a284-548e",
+                "border": {
+                    "width": 0,
+                    "radius": 0,
+                    "color": "255,0,0",
+                    "alpha": 1
+                },
+                "zIndex": 3,
+                "color": "66,219,192",
+                "namePosition": "bottom",
+                "useType": "10010",
+                "alarm": {
+                    "show": true,
+                    "text": 12,
+                    "color": "0,0,255",
+                    "font": {
+                        "size": 16,
+                        "type": "微软雅黑"
+                    }
+                },
+                "extra": {
+                    "id": "1/f82c18de-ac29-465b-953f-ca33d82f50e1",
+                    "pid": "1/volte",
+                    "alarmId": "2.ce.1487024982"
+                }
+            }, {
+                "image": "img/node.png",
+                "size": [60, 60],
+                "name": "南京AR4",
+                "alpha": 1,
+                "position": [88.9236000526813, 610.8921468852146],
+                "font": {
+                    "size": 16,
+                    "type": "微软雅黑",
+                    "color": "255,255,255"
+                },
+                "draggable": true,
+                "jsonId": "1ff9-d4c7-a875",
+                "border": {
+                    "width": 0,
+                    "radius": 0,
+                    "color": "255,0,0",
+                    "alpha": 1
+                },
+                "zIndex": 3,
+                "color": "66,219,192",
+                "namePosition": "bottom",
+                "useType": "10010",
+                "alarm": {
+                    "show": false,
+                    "text": "",
+                    "color": "255,255,255",
+                    "font": {
+                        "size": 16,
+                        "type": "微软雅黑"
+                    }
+                },
+                "extra": {
+                    "id": "1/9bb5fa28-28ca-47c6-ad35-dd868c070069",
+                    "pid": "1/volte",
+                    "alarmId": "2.ar.17"
+                }
+            }, {
+                "image": "img/node.png",
+                "size": [60, 60],
+                "name": "南京CR2集群",
+                "alpha": 1,
+                "position": [410.0588474754851, 789.1097807736979],
+                "font": {
+                    "size": 16,
+                    "type": "微软雅黑",
+                    "color": "255,255,255"
+                },
+                "draggable": true,
+                "jsonId": "9a16-a993-3033",
+                "border": {
+                    "width": 0,
+                    "radius": 0,
+                    "color": "255,0,0",
+                    "alpha": 1
+                },
+                "zIndex": 3,
+                "color": "66,219,192",
+                "namePosition": "bottom",
+                "useType": "10010",
+                "alarm": {
+                    "show": false,
+                    "text": "",
+                    "color": "255,255,255",
+                    "font": {
+                        "size": 16,
+                        "type": "微软雅黑"
+                    }
+                },
+                "extra": {
+                    "id": "1/a77d26ab-e161-440c-bb5e-3db9cdc1ccc1",
+                    "pid": "1/volte",
+                    "alarmId": "2.cr.193386783"
+                }
+            }, {
+                "image": "img/node.png",
+                "size": [60, 60],
+                "name": "南京CR1集群",
+                "alpha": 1,
+                "position": [399.4804180984422, 555.386262137666],
+                "font": {
+                    "size": 16,
+                    "type": "微软雅黑",
+                    "color": "255,255,255"
+                },
+                "draggable": true,
+                "jsonId": "e15a-303c-c7a7",
+                "border": {
+                    "width": 0,
+                    "radius": 0,
+                    "color": "255,0,0",
+                    "alpha": 1
+                },
+                "zIndex": 3,
+                "color": "66,219,192",
+                "namePosition": "bottom",
+                "useType": "10010",
+                "alarm": {
+                    "show": false,
+                    "text": "",
+                    "color": "255,255,255",
+                    "font": {
+                        "size": 16,
+                        "type": "微软雅黑"
+                    }
+                },
+                "extra": {
+                    "id": "1/97ac9b61-d53b-4124-b56f-96111d29df4f",
+                    "pid": "1/volte",
+                    "alarmId": "2.cr.193386713"
+                }
+            }]
+        },
+        "link": {
+            "data": [{
+                "number": 1,
+                "alpha": 1,
+                "color": "0,255,255",
+                "arrow": {
+                    "type": "close",
+                    "size": 10,
+                    "offset": 2,
+                    "start": false,
+                    "end": false
+                },
+                "jsonId": "16ae-92a8-c9ab",
+                "gap": 20,
+                "width": 3,
+                "dashed": [0, 0],
+                "zIndex": 2,
+                "font": {
+                    "size": 16,
+                    "type": "微软雅黑",
+                    "color": "255,255,255"
+                },
+                "expendAble": true,
+                "useType": "1002",
+                "offset": 60,
+                "extra": {
+                    "pid": "1/volte"
+                },
+                "start": "9a16-a993-3033",
+                "end": "1ff9-d4c7-a875"
+            }, {
+                "number": 1,
+                "alpha": 1,
+                "color": "0,255,255",
+                "arrow": {
+                    "type": "close",
+                    "size": 10,
+                    "offset": 2,
+                    "start": false,
+                    "end": false
+                },
+                "jsonId": "9cd9-ad20-ca44",
+                "gap": 20,
+                "width": 3,
+                "dashed": [0, 0],
+                "zIndex": 2,
+                "font": {
+                    "size": 16,
+                    "type": "微软雅黑",
+                    "color": "255,255,255"
+                },
+                "expendAble": true,
+                "useType": "1002",
+                "offset": 60,
+                "extra": {
+                    "pid": "1/volte"
+                },
+                "start": "e15a-303c-c7a7",
+                "end": "9a16-a993-3033"
+            }]
+        },
+        "container": {
+            "data": [{
+                "name": "苏北IP承载网",
+                "font": {
+                    "size": 16,
+                    "type": "微软雅黑",
+                    "color": "255,255,255"
+                },
+                "color": "22,87,130",
+                "alpha": 0.3,
+                "draggable": true,
+                "zIndex": 1,
+                "jsonId": "c6f6-6530-8a58",
+                "border": {
+                    "width": 0,
+                    "radius": 10,
+                    "color": "255,0,0",
+                    "alpha": 1
+                },
+                "size": [381.1352474228038, 293.72351863603194],
+                "position": [88.9236000526813, 555.386262137666],
+                "namePosition": "top",
+                "layout": {
+                    "type": "default"
+                },
+                "children": ["9a16-a993-3033", "e15a-303c-c7a7", "1ff9-d4c7-a875"],
+                "useType": "101",
+                "extra": {
+                    "id": "1/48747352-7e5f-4a0e-baef-b5150ebd0f13",
+                    "pid": "1/volte"
+                },
+                "toggle": {
+                    "image": "img/node.png",
+                    "size": [60, 60],
+                    "name": "苏北IP承载网",
+                    "alpha": 1,
+                    "position": [0, 0],
+                    "font": {
+                        "size": 16,
+                        "type": "微软雅黑",
+                        "color": "255,255,255"
+                    },
+                    "draggable": true,
+                    "jsonId": "2755-4e95-e955",
+                    "border": {
+                        "width": 0,
+                        "radius": 0,
+                        "color": "255,0,0",
+                        "alpha": 1
+                    },
+                    "zIndex": 3,
+                    "color": "66,219,192",
+                    "namePosition": "bottom",
+                    "useType": "临时工",
+                    "alarm": {
+                        "show": false,
+                        "text": "",
+                        "color": "255,255,255",
+                        "font": {
+                            "size": 16,
+                            "type": "微软雅黑"
+                        }
+                    },
+                    "extra": {}
+                }
+            }]
+        },
+        "line": {
+            "data": []
+        }
+    }
+}
